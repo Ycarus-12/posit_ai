@@ -880,10 +880,11 @@ def _section_function():
             ui.p(
                 ui.HTML(
                     "<strong>Operating model - small and scaling:</strong> Two people to start. "
-                    "A founding director and one ecosystem-fluent builder with real depth in "
-                    "ellmer, chatlas, ragnar, and shinychat. Land-and-expand: low burn, fast proof, "
+                    "A founding director and one strong builder. Land-and-expand: low burn, fast proof, "
                     "grow against a proven pipeline rather than a slide. Player-coach from day one - "
-                    "hands-on in the build, not pure management."
+                    "hands-on in the build, not pure management. "
+                    "Where it makes sense to build on Posit's own stack, we will - that is where the "
+                    "additional leverage lives. But the right tool for the job comes first."
                 )
             ),
         ),
@@ -894,8 +895,7 @@ def _section_function():
                     "The delivery model mirrors what works externally: understand what the team actually "
                     "needs before writing a line of code, build to that spec, and hand off something that "
                     "runs. That discipline - listening before building, requirements before solutions - "
-                    "is what separates an internal tool that gets used from one that gets abandoned. "
-                    "It is also harder to replicate from inside an engineering org than it looks."
+                    "is what separates an internal tool that gets used from one that gets abandoned."
                 )
             ),
         ),
@@ -911,12 +911,12 @@ def _section_backlog():
                 {
                     "name": "PM Agent",
                     "desc": "Automates status updates, flags at-risk milestones, surfaces blockers for PM review. Keeps the PM's head up and reduces reporting overhead.",
-                    "tags": [("POSIT STACK", "tag-posit")],
+                    "tags": [],
                 },
                 {
                     "name": "Customer Self-Service Agent",
                     "desc": "Answers common how-to questions during implementation using project documentation and Posit product docs. Reduces interruptions to the PS team.",
-                    "tags": [("POSIT STACK", "tag-posit"), ("QUICK WIN", "tag-quick")],
+                    "tags": [("QUICK WIN", "tag-quick")],
                 },
                 {
                     "name": "PS-to-CS Handoff Agent",
@@ -942,7 +942,7 @@ def _section_backlog():
                 {
                     "name": "QBR Prep Agent",
                     "desc": "Pulls usage data, support history, and account notes into a structured QBR brief. Quick win: low complexity, high visibility, strong first proof point for the function.",
-                    "tags": [("QUICK WIN", "tag-quick"), ("POSIT STACK", "tag-posit")],
+                    "tags": [("QUICK WIN", "tag-quick")],
                 },
                 {
                     "name": "Onboarding Gap Detector",
@@ -958,48 +958,48 @@ def _section_backlog():
         },
         {
             "name": "Sales",
-            "badge": "hypothesis",
+            "badge": "validated",
             "items": [
                 {
                     "name": "Pre-Call Research Agent",
                     "desc": "Assembles account context, recent news, and product usage history into a pre-call brief. Reduces prep time; increases rep confidence.",
-                    "tags": [("HYPOTHESIS", "tag-hyp")],
+                    "tags": [],
                 },
                 {
                     "name": "RFP / Technical Questionnaire Agent",
                     "desc": "Drafts responses to security, compliance, and technical RFP questions from a maintained knowledge base. High-volume, repetitive work with clear ROI.",
-                    "tags": [("HYPOTHESIS", "tag-hyp")],
+                    "tags": [],
                 },
                 {
                     "name": "Competitive Intel Agent",
                     "desc": "Monitors competitive signals and surfaces relevant positioning notes for reps. Sensitive territory - starts read-only, earns its way carefully.",
-                    "tags": [("HYPOTHESIS", "tag-hyp"), ("CRAWL-WALK-RUN", "tag-caution")],
+                    "tags": [("CRAWL-WALK-RUN", "tag-caution")],
                 },
             ],
         },
         {
             "name": "Support",
-            "badge": "hypothesis",
+            "badge": "validated",
             "items": [
                 {
                     "name": "Ticket Pattern Analyzer",
                     "desc": "Surfaces recurring issue clusters across the ticket queue. Identifies documentation gaps and systemic bugs that no single ticket reveals.",
-                    "tags": [("HYPOTHESIS", "tag-hyp"), ("POSIT STACK", "tag-posit")],
+                    "tags": [],
                 },
                 {
                     "name": "Known-Issue Triage Agent",
                     "desc": "Matches incoming tickets against a maintained known-issue database. Routes to the right resource faster; reduces duplicate investigation.",
-                    "tags": [("HYPOTHESIS", "tag-hyp")],
+                    "tags": [],
                 },
                 {
                     "name": "Documentation Gap Detector",
                     "desc": "Identifies questions the docs do not answer well by analyzing ticket patterns and failed self-service attempts.",
-                    "tags": [("HYPOTHESIS", "tag-hyp")],
+                    "tags": [],
                 },
                 {
                     "name": "Escalation Signal Agent",
                     "desc": "Flags tickets with escalation indicators before they escalate - sentiment, account tier, recurrence, wait time. Gives support leads time to intervene.",
-                    "tags": [("HYPOTHESIS", "tag-hyp"), ("CRAWL-WALK-RUN", "tag-caution")],
+                    "tags": [("CRAWL-WALK-RUN", "tag-caution")],
                 },
             ],
         },
@@ -1007,8 +1007,8 @@ def _section_backlog():
 
     team_els = []
     for team in teams:
-        badge_cls = "backlog-badge" if team["badge"] == "validated" else "backlog-badge hyp"
-        badge_text = "Validated" if team["badge"] == "validated" else "Hypothesis - validate with Aaron"
+        badge_cls = "backlog-badge"
+        badge_text = team["name"]
 
         item_els = []
         for idx, item in enumerate(team["items"]):
@@ -1044,19 +1044,20 @@ def _section_backlog():
 
     return ui.div(
         {"class": "pitch-section", "id": "backlog"},
-        ui.div({"class": "section-eyebrow"}, "Build Backlog"),
+        ui.div({"class": "section-eyebrow"}, "Possibilities"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("14 candidate builds. <strong>12-18 months</strong> of pipeline before anyone invents new ideas."),
+            ui.HTML("A few ideas to <strong>get the imagination moving.</strong>"),
         ),
         ui.p(
             {"class": "body-copy"},
             ui.HTML(
-                "The backlog is thickest for PS - where I have lived the work - and thinner for "
-                "teams I do not know as well. That asymmetry is honest, and it is the operating model. "
-                "I am not the process expert. I am the delivery partner who extracts what is needed "
-                "and builds it. Sales and Support items are marked as hypotheses until validated "
-                "through a proper discovery conversation."
+                "These are starting points, not a definitive list. The value AI could unlock across "
+                "PS, Sales, CS, and Support is real and significant - the tools below give a sense "
+                "of what becomes possible. But as you read them, hold both thoughts at once: "
+                "<strong>how much could these accelerate the work,</strong> and "
+                "<strong>who is going to build and maintain them?</strong> "
+                "That second question is the one this role exists to answer."
             ),
         ),
         *team_els,
@@ -1066,9 +1067,7 @@ def _section_backlog():
                 "<b>Tag key:</b> "
                 "<span style='color:#4a6b28;font-weight:600;'>QUICK WIN</span> - ships first as proof; "
                 "<span style='color:#447099;font-weight:600;'>SHARED</span> - cross-team build with two owners; "
-                "<span style='color:#8a5200;font-weight:600;'>POSIT STACK</span> - built on ellmer/ragnar/shinychat, doubles as reference implementation; "
-                "<span style='color:#c94e1f;font-weight:600;'>CRAWL-WALK-RUN</span> - high-risk build, phases required; "
-                "<span style='color:#888;font-weight:600;'>HYPOTHESIS</span> - validate with internal connection before committing."
+                "<span style='color:#c94e1f;font-weight:600;'>CRAWL-WALK-RUN</span> - higher-complexity build, phased approach required."
             ),
         ),
     )
@@ -1413,7 +1412,7 @@ def _section_ask():
                 ui.div(
                     {"class": "ask-item"},
                     ui.div({"class": "ask-item-label"}, "Starting team"),
-                    ui.div({"class": "ask-item-val"}, "Two - delivery lead + ecosystem builder"),
+                    ui.div({"class": "ask-item-val"}, "Two - founding director + builder"),
                 ),
                 ui.div(
                     {"class": "ask-item"},
