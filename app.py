@@ -61,6 +61,17 @@ _STATIC_JS = """
       }
     });
   });
+  // Auto-resize calculator iframes
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'iframeResize') {
+      var iframes = document.querySelectorAll('iframe');
+      iframes.forEach(function(f) {
+        if (f.contentWindow === e.source) {
+          f.style.height = e.data.height + 'px';
+        }
+      });
+    }
+  });
 })();
 """
 
@@ -523,7 +534,6 @@ body {
   font-size: 0.75rem;
   color: var(--gray);
 }
-.calc-body { padding: 1.5rem; }
 
 /* ---- ASK / CLOSE ---- */
 .ask-band {
@@ -1173,26 +1183,9 @@ def _section_discovery():
 
 
 def _calc_capacity_embed():
-    # Read the full HTML from project files and embed as iframe-equivalent
-    # We'll embed the calculator JS/HTML inline
-    import os
-    calc_html = open(os.path.join(os.path.dirname(__file__), "ai-value-calculator.html")).read()
-    # Strip the DOCTYPE/html/head/body wrappers, keep the page div and script
-    # Extract just the inner content we need
-    import re
-    # Get the style block
-    style_match = re.search(r'<style>(.*?)</style>', calc_html, re.DOTALL)
-    style = style_match.group(1) if style_match else ""
-    # Get everything inside body
-    body_match = re.search(r'<body>(.*?)</body>', calc_html, re.DOTALL)
-    body = body_match.group(1) if body_match else calc_html
-
-    # Scope the style to avoid conflicts
-    scoped = f'<style>.calc-capacity-scope {{ font-family: inherit; }} .calc-capacity-scope .page {{ max-width: 100%; padding: 0; }}</style><div class="calc-capacity-scope">{body}</div>'
-
     return ui.div(
         {"class": "pitch-section", "id": "calc-capacity"},
-        ui.div({"class": "section-eyebrow"}, "Calculator 01"),
+        ui.div({"class": "section-eyebrow"}, "The Numbers"),
         ui.h2(
             {"class": "section-title"},
             ui.HTML("The <strong>hidden capacity cost</strong> of building AI tooling ad hoc."),
@@ -1208,22 +1201,16 @@ def _calc_capacity_embed():
                 ui.div({"class": "calc-header-title"}, "Capacity Cost Model"),
                 ui.div({"class": "calc-header-sub"}, "Hours diverted from real work - build + maintenance over 3 years"),
             ),
-            ui.div({"class": "calc-body"}, ui.HTML(scoped)),
+            ui.HTML(
+                '<iframe src="ai-value-calculator.html" '
+                'style="width:100%;border:none;height:800px;" '
+                'scrolling="no"></iframe>'
+            ),
         ),
     )
 
 
 def _calc_roi_embed():
-    import os
-    calc_html = open(os.path.join(os.path.dirname(__file__), "AI_Governance_ROI.html")).read()
-    import re
-    style_match = re.search(r'<style>(.*?)</style>', calc_html, re.DOTALL)
-    style = style_match.group(1) if style_match else ""
-    # This one is just a div.w - grab everything
-    body = calc_html  # it's already a fragment
-
-    scoped = f'<div class="calc-roi-scope">{body}</div>'
-
     return ui.div(
         {"class": "pitch-section", "id": "calc-roi"},
         ui.div({"class": "section-eyebrow"}, "Calculator 02"),
@@ -1233,7 +1220,7 @@ def _calc_roi_embed():
         ),
         ui.p(
             {"class": "body-copy"},
-            "Crawl / Walk / Run is not just a risk framework - it is a savings framework. Each phase unlocks new optimization levers. The numbers below show what becomes possible, and when.",
+            "Each phase unlocks new optimization levers. The numbers below show what becomes possible, and when.",
         ),
         ui.div(
             {"class": "calc-embed"},
@@ -1242,7 +1229,11 @@ def _calc_roi_embed():
                 ui.div({"class": "calc-header-title"}, "AI Governance ROI"),
                 ui.div({"class": "calc-header-sub"}, "Cumulative savings across Crawl / Walk / Run phases"),
             ),
-            ui.div({"class": "calc-body"}, ui.HTML(scoped)),
+            ui.HTML(
+                '<iframe src="AI_Governance_ROI.html" '
+                'style="width:100%;border:none;height:800px;" '
+                'scrolling="no"></iframe>'
+            ),
         ),
     )
 
