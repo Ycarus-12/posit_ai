@@ -1,3 +1,4 @@
+import os
 from shiny import App, ui
 
 # ---------------------------------------------------------------------------
@@ -1299,7 +1300,7 @@ def _section_discovery():
 def _calc_capacity_embed():
     # Read the full HTML from project files and embed as iframe-equivalent
     # We'll embed the calculator JS/HTML inline
-    calc_html = open("/mnt/project/ai-value-calculator.html").read()
+    calc_html = open(os.path.join(os.path.dirname(__file__), "ai-value-calculator.html")).read()
     # Strip the DOCTYPE/html/head/body wrappers, keep the page div and script
     # Extract just the inner content we need
     import re
@@ -1337,7 +1338,7 @@ def _calc_capacity_embed():
 
 
 def _calc_roi_embed():
-    calc_html = open("/mnt/project/AI_Governance_ROI.html").read()
+    calc_html = open(os.path.join(os.path.dirname(__file__), "AI_Governance_ROI.html")).read()
     import re
     style_match = re.search(r'<style>(.*?)</style>', calc_html, re.DOTALL)
     style = style_match.group(1) if style_match else ""
