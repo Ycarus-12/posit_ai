@@ -515,7 +515,6 @@ body {
 .calc-embed {
   border: 1px solid var(--border);
   border-radius: 12px;
-  overflow: hidden;
   background: var(--card);
 }
 .calc-header {
@@ -1204,7 +1203,7 @@ def _calc_capacity_embed():
             ),
             ui.HTML(
                 '<iframe src="ai-value-calculator.html" '
-                'style="width:100%;border:none;height:800px;" '
+                'style="width:100%;border:none;height:1400px;" '
                 'scrolling="no"></iframe>'
             ),
         ),
