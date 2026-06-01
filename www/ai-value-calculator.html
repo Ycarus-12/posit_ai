@@ -643,5 +643,15 @@ input[type=range]::-moz-range-thumb {
   recalc();
 })();
 </script>
+<script>
+function postHeight() {
+  var h = document.documentElement.scrollHeight;
+  window.parent.postMessage({ type: 'iframeResize', height: h }, '*');
+}
+window.addEventListener('load', postHeight);
+window.addEventListener('resize', postHeight);
+document.addEventListener('input', function() { setTimeout(postHeight, 150); });
+document.addEventListener('click', function() { setTimeout(postHeight, 350); });
+</script>
 </body>
 </html>

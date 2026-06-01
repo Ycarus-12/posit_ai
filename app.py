@@ -1172,7 +1172,7 @@ def _calc_capacity_embed():
         ),
         ui.HTML(
             '<iframe src="ai-value-calculator.html" '
-            'style="width:100%;border:none;height:1400px;display:block;" '
+            'style="width:100%;border:none;height:2600px;display:block;" '
             'scrolling="no"></iframe>'
         ),
     )
