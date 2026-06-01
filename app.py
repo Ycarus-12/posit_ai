@@ -428,57 +428,6 @@ body {
 .tag-caution { background: var(--orange-lt); color: var(--orange-dk); }
 .tag-hyp { background: var(--gray-bg); color: var(--gray); }
 
-/* ---- CRAWL/WALK/RUN ---- */
-.cwr-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-.cwr-card {
-  border-radius: 10px;
-  padding: 1.35rem 1.25rem;
-}
-.cwr-card.crawl { background: #FAEEDA; border: 1px solid #BA7517; }
-.cwr-card.walk  { background: #E6F1FB; border: 1px solid #378ADD; }
-.cwr-card.run   { background: #EAF3DE; border: 1px solid #639922; }
-.cwr-label {
-  font-family: 'Source Code Pro', monospace;
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 0.35rem;
-}
-.cwr-card.crawl .cwr-label { color: #854F0B; }
-.cwr-card.walk  .cwr-label { color: #185FA5; }
-.cwr-card.run   .cwr-label { color: #3B6D11; }
-.cwr-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-.cwr-card.crawl .cwr-title { color: #633806; }
-.cwr-card.walk  .cwr-title { color: #0C447C; }
-.cwr-card.run   .cwr-title { color: #27500A; }
-.cwr-body { font-size: 0.8rem; line-height: 1.6; }
-.cwr-card.crawl .cwr-body { color: #854F0B; }
-.cwr-card.walk  .cwr-body { color: #185FA5; }
-.cwr-card.run   .cwr-body { color: #3B6D11; }
-.cwr-human {
-  margin-top: 0.75rem;
-  padding-top: 0.6rem;
-  border-top: 1px solid rgba(0,0,0,0.1);
-  font-family: 'Source Code Pro', monospace;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.cwr-card.crawl .cwr-human { color: #854F0B; }
-.cwr-card.walk  .cwr-human { color: #185FA5; }
-.cwr-card.run   .cwr-human { color: #3B6D11; }
-
 /* ---- WHY ME ---- */
 .credential-pair {
   display: grid;
@@ -635,7 +584,6 @@ body {
   .pitch-section { padding: 2.5rem 1.25rem 2rem; }
   .stat-strip { grid-template-columns: 1fr; }
   .pillars-grid { grid-template-columns: 1fr; }
-  .cwr-grid { grid-template-columns: 1fr; }
   .credential-pair { grid-template-columns: 1fr; }
   .ask-items { grid-template-columns: 1fr; }
 }
@@ -662,16 +610,14 @@ def _nav():
             ui.div({"class": "nav-section-label"}, "The Case"),
             ui.a({"class": "nav-pill active", "href": "#opening"}, "The Risk"),
             ui.a({"class": "nav-pill", "href": "#why-now"}, "Why Now"),
+            ui.a({"class": "nav-pill", "href": "#discovery"}, "The Questions"),
+            ui.div({"class": "nav-section-label"}, "The Answer"),
             ui.a({"class": "nav-pill", "href": "#function"}, "The Function"),
-            ui.div({"class": "nav-section-label"}, "The Work"),
             ui.a({"class": "nav-pill", "href": "#backlog"}, "Build Backlog"),
-            ui.a({"class": "nav-pill", "href": "#framework"}, "The Framework"),
             ui.div({"class": "nav-section-label"}, "The Fit"),
             ui.a({"class": "nav-pill", "href": "#why-me"}, "Why Me"),
-            ui.a({"class": "nav-pill", "href": "#discovery"}, "Discovery Qs"),
             ui.div({"class": "nav-section-label"}, "The Numbers"),
             ui.a({"class": "nav-pill", "href": "#calc-capacity"}, "Capacity Cost"),
-            ui.a({"class": "nav-pill", "href": "#calc-roi"}, "Governance ROI"),
             ui.div({"class": "nav-section-label"}, "Close"),
             ui.a({"class": "nav-pill", "href": "#ask"}, "The Ask"),
         ),
@@ -723,8 +669,8 @@ def _section_opening():
             {"class": "callout"},
             ui.p(
                 ui.HTML(
-                    "\"What is your plan for maintaining these tools a year from now?\" "
-                    "If the answer is 'whoever built it' or 'we'll figure it out,' "
+                    "The plan for maintaining these tools a year from now matters more than the plan to build them. "
+                    "If the answer is 'whoever built it' or 'we will figure it out,' "
                     "that is not a plan. It is a liability that compounds quietly until it becomes a crisis."
                 )
             ),
@@ -743,10 +689,9 @@ def _section_opening():
             {"class": "callout blue"},
             ui.p(
                 ui.HTML(
-                    "A skeptical leader might answer 'or we just don't build all those agents.' "
-                    "But that choice is already off the table - AI is an explicit priority, not an experiment. "
-                    "The only real question is whether maintenance is designed in from day one, "
-                    "or discovered after the first tool fails silently."
+                    "The builds are coming. AI tooling across operational teams is not a question of if - "
+                    "the only question is whether maintenance is planned from the start or discovered "
+                    "after the first tool fails silently."
                 )
             ),
         ),
@@ -805,7 +750,7 @@ def _section_why_now():
             ui.p(
                 ui.HTML(
                     "<strong>The Posit multiplier:</strong> Posit's customers are data science teams. "
-                    "When internal AI tools are built on Posit's own stack - ellmer, ragnar, shinychat - "
+                    "When internal AI tools are built on Posit's own packages and platforms, "
                     "there is potential for those builds to travel beyond the internal team. "
                     "Reference implementations, dogfooding feedback loops, devrel content. "
                     "The work could pay for itself two or three times over. "
@@ -888,17 +833,6 @@ def _section_function():
                 )
             ),
         ),
-        ui.div(
-            {"class": "callout"},
-            ui.p(
-                ui.HTML(
-                    "The delivery model mirrors what works externally: understand what the team actually "
-                    "needs before writing a line of code, build to that spec, and hand off something that "
-                    "runs. That discipline - listening before building, requirements before solutions - "
-                    "is what separates an internal tool that gets used from one that gets abandoned."
-                )
-            ),
-        ),
     )
 
 
@@ -958,7 +892,7 @@ def _section_backlog():
         },
         {
             "name": "Sales",
-            "badge": "validated",
+            "badge": "hypothesis",
             "items": [
                 {
                     "name": "Pre-Call Research Agent",
@@ -979,7 +913,7 @@ def _section_backlog():
         },
         {
             "name": "Support",
-            "badge": "validated",
+            "badge": "hypothesis",
             "items": [
                 {
                     "name": "Ticket Pattern Analyzer",
@@ -1007,8 +941,8 @@ def _section_backlog():
 
     team_els = []
     for team in teams:
-        badge_cls = "backlog-badge"
-        badge_text = team["name"]
+        badge_cls = "backlog-badge" if team["badge"] == "validated" else "backlog-badge hyp"
+        badge_text = "VALIDATED" if team["badge"] == "validated" else "HYPOTHESIS"
 
         item_els = []
         for idx, item in enumerate(team["items"]):
@@ -1047,7 +981,7 @@ def _section_backlog():
         ui.div({"class": "section-eyebrow"}, "Possibilities"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("A few ideas to <strong>get the imagination moving.</strong>"),
+            ui.HTML("A pipeline, <strong>not a wishlist.</strong>"),
         ),
         ui.p(
             {"class": "body-copy"},
@@ -1062,6 +996,20 @@ def _section_backlog():
         ),
         *team_els,
         ui.div(
+            {"class": "callout blue"},
+            ui.p(
+                ui.HTML(
+                    "<strong>Every build starts read-only. We never arrive at a state where AI decides and acts without a human in the loop.</strong> "
+                    "Phase 1 (Crawl): agent reads and reports, human decides and acts. "
+                    "Phase 2 (Walk): agent flags and scores, human owns all actions. "
+                    "Phase 3 (Run): agent drafts and routes within a narrow scope, human approves before anything executes. "
+                    "The gate between phases is performance, not a calendar. "
+                    "For the highest-risk builds - Renewal Risk Signal, Competitive Intel, Escalation Signal - "
+                    "the phases are mapped explicitly before any work starts."
+                )
+            ),
+        ),
+        ui.div(
             {"class": "footnote-strip"},
             ui.HTML(
                 "<b>Tag key:</b> "
@@ -1073,87 +1021,17 @@ def _section_backlog():
     )
 
 
-def _section_framework():
-    return ui.div(
-        {"class": "pitch-section", "id": "framework"},
-        ui.div({"class": "section-eyebrow"}, "The Framework"),
-        ui.h2(
-            {"class": "section-title"},
-            ui.HTML("Every build starts <strong>read-only.</strong> Autonomy is earned, not assumed."),
-        ),
-        ui.p(
-            {"class": "body-copy"},
-            ui.HTML(
-                "Crawl / Walk / Run is not a phasing patch on the risky builds. It is the default "
-                "operating posture for every build. We never arrive at a state where AI decides and "
-                "acts without a human in the loop. The gate between phases is performance, not a calendar."
-            ),
-        ),
-        ui.div(
-            {"class": "cwr-grid"},
-            ui.div(
-                {"class": "cwr-card crawl"},
-                ui.div({"class": "cwr-label"}, "Crawl - Phase 1"),
-                ui.div({"class": "cwr-title"}, "Read-only reporting"),
-                ui.div(
-                    {"class": "cwr-body"},
-                    "Agent reads data and produces a digest or report. "
-                    "Human reads the output, decides what to do, and acts. "
-                    "No action surface exposed to the agent.",
-                ),
-                ui.div({"class": "cwr-human"}, "Human owns: everything"),
-            ),
-            ui.div(
-                {"class": "cwr-card walk"},
-                ui.div({"class": "cwr-label"}, "Walk - Phase 2"),
-                ui.div({"class": "cwr-title"}, "Structured surfacing"),
-                ui.div(
-                    {"class": "cwr-body"},
-                    "Agent flags, scores, or categorizes. Output is structured for human judgment. "
-                    "Human still owns every action - the agent surfaces; it does not decide.",
-                ),
-                ui.div({"class": "cwr-human"}, "Human owns: all actions"),
-            ),
-            ui.div(
-                {"class": "cwr-card run"},
-                ui.div({"class": "cwr-label"}, "Run - Phase 3"),
-                ui.div({"class": "cwr-title"}, "Narrow workflow initiation"),
-                ui.div(
-                    {"class": "cwr-body"},
-                    "Agent drafts and routes within a narrow, reversible scope. "
-                    "Human approves before anything executes. "
-                    "Delegation stays explicit and bounded.",
-                ),
-                ui.div({"class": "cwr-human"}, "Human owns: every approval gate"),
-            ),
-        ),
-        ui.div(
-            {"class": "callout"},
-            ui.p(
-                ui.HTML(
-                    "<strong>For the highest-risk builds</strong> - Renewal Risk Signal, Competitive Intel, "
-                    "Escalation Signal - the Crawl/Walk/Run phases are itemized explicitly in the build plan "
-                    "before any work starts. The framework is not a workaround. It is the plan."
-                )
-            ),
-        ),
-    )
-
-
 def _section_why_me():
     return ui.div(
         {"class": "pitch-section", "id": "why-me"},
         ui.div({"class": "section-eyebrow"}, "Why Me"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("Two credentials. <strong>Do not conflate them.</strong>"),
+            ui.HTML("Two credentials. <strong>Both load-bearing.</strong>"),
         ),
         ui.p(
             {"class": "body-copy"},
-            ui.HTML(
-                "The honest version of this case is built on two separate things. "
-                "Conflating them makes both weaker. Keeping them distinct makes the case more credible."
-            ),
+            "This case rests on two separate things.",
         ),
         ui.div(
             {"class": "credential-pair"},
@@ -1183,9 +1061,7 @@ def _section_why_me():
                         "A suite of working agents built for a PS team: PM Agent, PS-to-Support Handoff, "
                         "PS-to-CS Handoff, How-To Agent. A Shiny for R prototype of a SaaS implementation "
                         "assistant, deployed on Posit Cloud, built with the Anthropic API via httr2.<br><br>"
-                        "<strong>Not a decade of AI.</strong> A few years of hands-on building with a "
-                        "structured, scalable framework. The real story is strong enough on its own. "
-                        "One exaggeration makes them doubt everything else."
+                        "A few years of hands-on building with a structured, scalable framework."
                     ),
                 ),
             ),
@@ -1223,39 +1099,39 @@ def _section_discovery():
     questions = [
         {
             "q": "Who is responsible for building AI agents and systems for internal operational teams?",
-            "reveal": "At most companies, the honest answer is 'no one,' or 'whoever happens to have a free hour this week.' Each question that lands without a clean answer is another piece of the case for the function.",
+            "reveal": "Without a clear owner, builds happen whenever someone has a spare hour - which means they happen inconsistently, to varying standards, with no shared framework. The institutional knowledge lives with whoever did the work, and leaves when they do.",
         },
         {
             "q": "How much time away from their actual job do they have to build these tools properly?",
-            "reveal": "The gap is not competence - it is bandwidth. Posit's engineers are committed to the product roadmap. Internal operational builds will never make the product queue, which means they fall to whoever is available.",
+            "reveal": "Bandwidth is the real constraint, not capability. When the people doing the building are also responsible for their primary job, AI tooling gets the hours nobody else claimed. That is not a recipe for production-quality systems.",
         },
         {
             "q": "Are the people building these tools following a shared company standard?",
-            "reveal": "Without a shared owner, standards fragment. Teams build to their own approach, which makes maintenance harder, governance impossible, and institutional knowledge tied to whoever built the thing.",
+            "reveal": "Without shared standards, every build is a one-off. That makes each tool harder to maintain, harder to hand off, and impossible to govern at scale. What works for one team does not transfer to the next.",
         },
         {
             "q": "Before anything gets built, who decides whether the tool is even needed?",
-            "reveal": "The prioritization question needs an owner whose actual job is to ask it. Without one, everything that gets requested gets built, and the maintenance burden compounds without a corresponding return.",
+            "reveal": "Without an owner for the prioritization question, the answer defaults to whoever asked loudest or most recently. Tools get built that duplicate effort, solve the wrong problem, or create maintenance burden without corresponding value.",
         },
         {
             "q": "Who makes sure these tools are optimized - not just reaching for the most expensive model when a cheaper one would do?",
-            "reveal": "Model selection, context trimming, caching, and batch routing can cut API costs dramatically. Without governance, teams default to the biggest model for everything. The ROI calculator on this site models the compounding savings from structured optimization.",
+            "reveal": "Model selection, prompt design, context trimming, and output right-sizing can dramatically affect cost. Without someone accountable for those decisions, teams default to the most capable model they know - which is rarely the most appropriate one.",
         },
         {
             "q": "When a new model is released, who checks that it does not break the tools already in production?",
-            "reveal": "Model updates are silent maintenance events. An agent that passes all tests today may degrade quietly on a new model version. Without ownership, nobody checks until something goes wrong.",
+            "reveal": "Model updates are not automatically safe. An agent that performs well today can degrade quietly on a new version - different output formatting, changed reasoning patterns, subtle shifts in how instructions are interpreted. Nobody catches this unless someone is looking.",
         },
         {
             "q": "When an agent needs to be rebuilt, what happens when the person who built it has left or is buried in another project?",
-            "reveal": "This is the core liability. Institutional knowledge tied to one person is a single point of failure. The function solves this by owning the portfolio, not individual people owning individual tools.",
+            "reveal": "This is where most ad hoc AI programs eventually stall. The tool exists, the person who understood it is gone, and nobody else has the context to maintain it. The options are an expensive rebuild or quietly abandoning something the team came to depend on.",
         },
         {
             "q": "Who is evaluating new tools, platforms, and systems - keeping an eye on what is coming?",
-            "reveal": "Horizon scanning is a dedicated task, not something that happens naturally alongside a full-time job. The function owns this, which protects the rest of the organization from being blindsided by a platform shift.",
+            "reveal": "The AI tooling landscape changes fast enough that last year's best approach may already have a better alternative. Staying current is a dedicated task - it does not happen as a byproduct of other work.",
         },
         {
             "q": "Who is helping teams self-serve on AI - not building everything for them, but enabling them to move?",
-            "reveal": "Enablement is the long-term multiplier. A function that only builds creates a dependency. A function that also enables creates capability. Both are part of the operating model.",
+            "reveal": "A build-only function creates dependency. Teams wait for the queue instead of moving. Enablement - teaching teams to use AI well within guardrails - is what makes the investment compound over time.",
         },
     ]
 
@@ -1279,19 +1155,17 @@ def _section_discovery():
 
     return ui.div(
         {"class": "pitch-section", "id": "discovery"},
-        ui.div({"class": "section-eyebrow"}, "Discovery Questions"),
+        ui.div({"class": "section-eyebrow"}, "The Questions"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("The questions that <strong>surface the gap</strong> without naming it."),
+            ui.HTML("Worth answering <strong>before the first build ships.</strong>"),
         ),
         ui.p(
             {"class": "body-copy"},
             ui.HTML(
-                "These are the diagnostic questions to raise in a leadership conversation. "
-                "Their power is structural: at most companies, the honest answer to nearly every one "
-                "is 'no one,' or 'whoever has a free hour.' "
-                "Each question that lands without a clean answer is another piece of the case for the function. "
-                "Click any question to see the framing behind it."
+                "Any organization scaling AI tooling should be able to answer these cleanly. "
+                "They are not trick questions - they are the operational basics. "
+                "Click any question to see what happens when the answer is unclear."
             ),
         ),
         *q_els,
@@ -1386,11 +1260,28 @@ def _section_ask():
             ui.p(
                 ui.HTML(
                     "This role does not exist yet. That is the point. "
-                    "The function I am describing is the answer to a set of questions Posit's "
-                    "leadership has not yet had to answer formally - but will, as the AI build "
-                    "mandate accelerates. The ask is a conversation to test whether those questions "
-                    "land the way I think they will, and whether the function makes sense as I have described it."
+                    "The function described here is the answer to a set of questions any organization "
+                    "scaling AI tooling will eventually have to answer. "
+                    "The ask is a conversation to test whether those questions resonate, "
+                    "and whether this is the right moment to get ahead of them."
                 )
+            ),
+            ui.div(
+                {"class": "callout green"},
+                ui.p(
+                    ui.HTML(
+                        "<strong>The compounding argument:</strong> A team that starts building "
+                        "this function in 2026 does not have a one-year head start over a team "
+                        "that starts in 2027. It has a year of production systems, real evaluation data, "
+                        "and a team that has already made the expensive mistakes. That gap widens every month. "
+                        "The cost of waiting is not just internal inefficiency - "
+                        "it is also ceding the credibility story to someone else."
+                    )
+                ),
+            ),
+            ui.p(
+                {"style": "font-size:0.82rem;color:rgba(255,255,255,0.7);margin-bottom:0.5rem;margin-top:1rem;"},
+                "One scenario for how this could look:",
             ),
             ui.div(
                 {"class": "ask-items"},
@@ -1406,7 +1297,7 @@ def _section_ask():
                 ),
                 ui.div(
                     {"class": "ask-item"},
-                    ui.div({"class": "ask-item-label"}, "Reporting line (hypothesis)"),
+                    ui.div({"class": "ask-item-label"}, "Reporting line"),
                     ui.div({"class": "ask-item-val"}, "COO or cross-functional ops owner"),
                 ),
                 ui.div(
@@ -1427,34 +1318,18 @@ def _section_ask():
             ),
             ui.p(
                 ui.HTML(
-                    "The reporting line recommendation assumes Posit has a COO or a clear "
-                    "cross-functional operations owner. This is a hypothesis, not a confirmed fact. "
-                    "The right answer comes from the discovery conversation, not this document."
-                )
-            ),
-        ),
-        ui.div(
-            {"class": "callout green"},
-            ui.p(
-                ui.HTML(
-                    "<strong>The compounding argument:</strong> A company that starts building "
-                    "this function in 2026 does not have a one-year head start over a company "
-                    "that starts in 2027. It has a year of production systems, real evaluation data, "
-                    "and a team that has already made the expensive mistakes. That gap widens every month. "
-                    "The cost of waiting is not just internal inefficiency. "
-                    "For Posit specifically, it is also ceding the credibility story to someone else."
+                    "Several of these are starting points, not conclusions - "
+                    "the reporting line in particular depends on org structure that a conversation would clarify. "
+                    "The next step is that conversation."
                 )
             ),
         ),
         ui.div(
             {"class": "footnote-strip"},
             ui.HTML(
-                "<b>A note on what this document is and is not:</b> "
-                "This is a role proposal, not a one-sided sales pitch. "
-                "The discovery questions exist because I do not know Posit's internal structure better than Posit does. "
-                "Several items here are flagged as hypotheses to be validated - the Sales and Support backlog, "
-                "the reporting line, whether an informal version of this function already exists. "
-                "The honest version of this pitch includes the things I do not yet know."
+                "Some items here are hypotheses awaiting validation - the Sales and Support build ideas, "
+                "the right reporting line, whether any informal version of this function already exists. "
+                "That is what the conversation is for."
             ),
         ),
     )
@@ -1479,13 +1354,11 @@ app_ui = ui.page_fluid(
             {"class": "pitch-main"},
             _section_opening(),
             _section_why_now(),
+            _section_discovery(),
             _section_function(),
             _section_backlog(),
-            _section_framework(),
             _section_why_me(),
-            _section_discovery(),
             _calc_capacity_embed(),
-            _calc_roi_embed(),
             _section_ask(),
         ),
     ),
