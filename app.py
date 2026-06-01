@@ -511,30 +511,6 @@ body {
 }
 .disc-reveal strong { color: var(--blue); }
 
-/* ---- CALCULATOR WRAPPER ---- */
-.calc-embed {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--card);
-}
-.calc-header {
-  background: var(--blue-bg);
-  border-bottom: 1px solid var(--blue-lt);
-  padding: 0.85rem 1.25rem;
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-}
-.calc-header-title {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--blue);
-}
-.calc-header-sub {
-  font-size: 0.75rem;
-  color: var(--gray);
-}
-
 /* ---- ASK / CLOSE ---- */
 .ask-band {
   background: var(--blue);
@@ -1194,18 +1170,10 @@ def _calc_capacity_embed():
             {"class": "body-copy"},
             "Adjust the inputs to match your team. Defaults are conservative and sourced. Your actual numbers are likely larger, not smaller.",
         ),
-        ui.div(
-            {"class": "calc-embed"},
-            ui.div(
-                {"class": "calc-header"},
-                ui.div({"class": "calc-header-title"}, "Capacity Cost Model"),
-                ui.div({"class": "calc-header-sub"}, "Hours diverted from real work - build + maintenance over 3 years"),
-            ),
-            ui.HTML(
-                '<iframe src="ai-value-calculator.html" '
-                'style="width:100%;border:none;height:1400px;" '
-                'scrolling="no"></iframe>'
-            ),
+        ui.HTML(
+            '<iframe src="ai-value-calculator.html" '
+            'style="width:100%;border:none;height:1400px;display:block;" '
+            'scrolling="no"></iframe>'
         ),
     )
 
@@ -1222,18 +1190,10 @@ def _calc_roi_embed():
             {"class": "body-copy"},
             "Each phase unlocks new optimization levers. The numbers below show what becomes possible, and when.",
         ),
-        ui.div(
-            {"class": "calc-embed"},
-            ui.div(
-                {"class": "calc-header"},
-                ui.div({"class": "calc-header-title"}, "AI Governance ROI"),
-                ui.div({"class": "calc-header-sub"}, "Cumulative savings across Crawl / Walk / Run phases"),
-            ),
-            ui.HTML(
-                '<iframe src="AI_Governance_ROI.html" '
-                'style="width:100%;border:none;height:800px;" '
-                'scrolling="no"></iframe>'
-            ),
+        ui.HTML(
+            '<iframe src="AI_Governance_ROI.html" '
+            'style="width:100%;border:none;height:800px;display:block;" '
+            'scrolling="no"></iframe>'
         ),
     )
 
