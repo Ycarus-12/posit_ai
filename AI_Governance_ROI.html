@@ -1,0 +1,340 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.w{padding:1.5rem 0;}
+.sr{display:flex;align-items:center;gap:12px;margin-bottom:.875rem;}
+.sl{font-size:13px;color:var(--color-text-secondary);min-width:200px;}
+.sv{font-size:13px;font-weight:500;min-width:64px;text-align:right;color:var(--color-text-primary);}
+.phase-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem;}
+.pn{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:.875rem 1rem;cursor:pointer;background:var(--color-background-primary);}
+.pn:hover{background:var(--color-background-secondary);}
+.pn.active.crawl{border:2px solid #854F0B;background:#FAEEDA;}
+.pn.active.walk{border:2px solid #185FA5;background:#E6F1FB;}
+.pn.active.run{border:2px solid #3B6D11;background:#EAF3DE;}
+@media(prefers-color-scheme:dark){
+  .pn.active.crawl{background:#412402;border-color:#EF9F27;}
+  .pn.active.walk{background:#042C53;border-color:#378ADD;}
+  .pn.active.run{background:#173404;border-color:#639922;}
+}
+.pn-tag{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}
+.pn-tag.crawl{color:#854F0B;}.pn-tag.walk{color:#185FA5;}.pn-tag.run{color:#3B6D11;}
+@media(prefers-color-scheme:dark){.pn-tag.crawl{color:#FAC775;}.pn-tag.walk{color:#85B7EB;}.pn-tag.run{color:#C0DD97;}}
+.pn-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;}
+.pn-sub{font-size:12px;font-weight:500;}
+.pn-sub.crawl{color:#854F0B;}.pn-sub.walk{color:#185FA5;}.pn-sub.run{color:#3B6D11;}
+@media(prefers-color-scheme:dark){.pn-sub.crawl{color:#FAC775;}.pn-sub.walk{color:#85B7EB;}.pn-sub.run{color:#C0DD97;}}
+.pn-prev{font-size:11px;color:var(--color-text-tertiary);margin-top:1px;}
+.disclaimer{font-size:12px;color:var(--color-text-secondary);padding:.75rem 1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:1rem;display:flex;gap:8px;align-items:flex-start;}
+.disclaimer i{font-size:14px;flex-shrink:0;padding-top:1px;}
+.buys-section{margin-bottom:1.25rem;}
+.buys-label{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:.75rem;}
+.buys-hero{border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.buys-hero.crawl{background:#FAEEDA;border:0.5px solid #BA7517;}
+.buys-hero.walk{background:#E6F1FB;border:0.5px solid #378ADD;}
+.buys-hero.run{background:#EAF3DE;border:0.5px solid #639922;}
+@media(prefers-color-scheme:dark){
+  .buys-hero.crawl{background:#412402;border-color:#EF9F27;}
+  .buys-hero.walk{background:#042C53;border-color:#378ADD;}
+  .buys-hero.run{background:#173404;border-color:#639922;}
+}
+.buys-hero-count{font-size:42px;font-weight:500;line-height:1;}
+.buys-hero-count.crawl{color:#633806;}.buys-hero-count.walk{color:#0C447C;}.buys-hero-count.run{color:#27500A;}
+@media(prefers-color-scheme:dark){.buys-hero-count.crawl{color:#FAC775;}.buys-hero-count.walk{color:#85B7EB;}.buys-hero-count.run{color:#C0DD97;}}
+.buys-hero-label{font-size:13px;margin-top:4px;}
+.buys-hero-label.crawl{color:#854F0B;}.buys-hero-label.walk{color:#185FA5;}.buys-hero-label.run{color:#3B6D11;}
+@media(prefers-color-scheme:dark){.buys-hero-label.crawl{color:#FAC775;}.buys-hero-label.walk{color:#85B7EB;}.buys-hero-label.run{color:#C0DD97;}}
+.buys-hero-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+.buys-hero-savings{font-size:22px;font-weight:500;}
+.buys-hero-savings.crawl{color:#633806;}.buys-hero-savings.walk{color:#0C447C;}.buys-hero-savings.run{color:#27500A;}
+@media(prefers-color-scheme:dark){.buys-hero-savings.crawl{color:#FAC775;}.buys-hero-savings.walk{color:#85B7EB;}.buys-hero-savings.run{color:#C0DD97;}}
+.buys-rest{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;}
+.eq{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem;}
+.eq-num{font-size:16px;font-weight:500;color:var(--color-text-primary);}
+.eq-label{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+.phase-content{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);background:var(--color-background-primary);padding:1.25rem;margin-bottom:1.25rem;}
+.phase-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.75rem;}
+.phase-title{font-size:14px;font-weight:500;color:var(--color-text-primary);}
+.phase-badge{font-size:11px;padding:3px 10px;border-radius:var(--border-radius-md);}
+.phase-badge.crawl{background:#FAEEDA;color:#633806;}
+.phase-badge.walk{background:#E6F1FB;color:#0C447C;}
+.phase-badge.run{background:#EAF3DE;color:#27500A;}
+@media(prefers-color-scheme:dark){
+  .phase-badge.crawl{background:#412402;color:#FAC775;}
+  .phase-badge.walk{background:#042C53;color:#85B7EB;}
+  .phase-badge.run{background:#173404;color:#C0DD97;}
+}
+.lever-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-top:0.5px solid var(--color-border-tertiary);}
+.lever-icon{font-size:16px;color:var(--color-text-secondary);flex-shrink:0;padding-top:1px;}
+.lever-body{flex:1;}
+.lever-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px;}
+.lever-tag{font-size:10px;padding:2px 7px;border-radius:var(--border-radius-md);}
+.lever-tag.new{background:#EAF3DE;color:#27500A;}
+.lever-tag.carried{background:var(--color-background-secondary);color:var(--color-text-secondary);}
+@media(prefers-color-scheme:dark){.lever-tag.new{background:#173404;color:#C0DD97;}}
+.lever-name{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.lever-amt{font-size:12px;font-weight:500;color:var(--color-text-secondary);}
+.lever-desc{font-size:12px;color:var(--color-text-secondary);margin-bottom:5px;}
+.lever-timeline{font-size:11px;color:var(--color-text-tertiary);}
+.bar-track{height:5px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden;margin-top:5px;}
+.bar-fill{height:100%;border-radius:3px;}
+.bar-fill.crawl{background:#BA7517;}.bar-fill.walk{background:#378ADD;}.bar-fill.run{background:#639922;}
+.progress-strip{margin-bottom:1.25rem;}
+.ps-label{font-size:12px;color:var(--color-text-secondary);margin-bottom:6px;}
+.ps-track{height:8px;background:var(--color-background-secondary);border-radius:4px;overflow:hidden;display:flex;}
+.ps-seg{height:100%;}
+.ps-seg.crawl{background:#BA7517;}.ps-seg.walk{background:#378ADD;}.ps-seg.run{background:#639922;}
+.ps-legend{display:flex;gap:16px;margin-top:6px;flex-wrap:wrap;}
+.ps-leg-item{display:flex;align-items:center;gap:5px;}
+.ps-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.ps-dot.crawl{background:#BA7517;}.ps-dot.walk{background:#378ADD;}.ps-dot.run{background:#639922;}
+.ps-leg-label{font-size:11px;color:var(--color-text-secondary);}
+.footnote{font-size:11px;color:var(--color-text-tertiary);line-height:1.6;border-top:0.5px solid var(--color-border-tertiary);padding-top:1rem;}
+</style>
+
+<div class="w">
+<h2 class="sr-only">AI governance phased ROI calculator: compounding savings across crawl, walk, and run phases</h2>
+
+<div style="margin-bottom:1.25rem;">
+  <div class="sr">
+    <span class="sl">Employees using AI</span>
+    <input type="range" min="10" max="1000" step="1" value="300" id="s-emp" style="flex:1;">
+    <span class="sv" id="v-emp">300</span>
+  </div>
+  <div class="sr">
+    <span class="sl">Requests per person per day</span>
+    <input type="range" min="1" max="100" step="1" value="75" id="s-req" style="flex:1;">
+    <span class="sv" id="v-req">75</span>
+  </div>
+</div>
+
+<div class="phase-nav">
+  <div class="pn active crawl" id="tab-crawl" onclick="setPhase('crawl')">
+    <div class="pn-tag crawl">Crawl - months 1-3</div>
+    <div class="pn-title">Governance foundation</div>
+    <div class="pn-sub crawl" id="tab-crawl-amt">-</div>
+    <div class="pn-prev" id="tab-crawl-prev"></div>
+  </div>
+  <div class="pn walk" id="tab-walk" onclick="setPhase('walk')">
+    <div class="pn-tag walk">Walk - months 4-9</div>
+    <div class="pn-title">Technical optimization</div>
+    <div class="pn-sub walk" id="tab-walk-amt">-</div>
+    <div class="pn-prev" id="tab-walk-prev"></div>
+  </div>
+  <div class="pn run" id="tab-run" onclick="setPhase('run')">
+    <div class="pn-tag run">Run - months 10-18</div>
+    <div class="pn-title">Full optimization</div>
+    <div class="pn-sub run" id="tab-run-amt">-</div>
+    <div class="pn-prev" id="tab-run-prev"></div>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <i class="ti ti-info-circle" aria-hidden="true"></i>
+  <span>Savings shown are cumulative - each phase includes everything earned in prior phases. Numbers reflect what's realistic at each stage, not a theoretical maximum.</span>
+</div>
+
+<div class="buys-section">
+  <div class="buys-label">What this phase's savings fund</div>
+  <div class="buys-hero crawl" id="buys-hero">
+    <div>
+      <div class="buys-hero-count crawl" id="hero-savings">-</div>
+      <div class="buys-hero-label crawl" id="hero-label">annual savings</div>
+      <div class="buys-hero-sub" id="hero-5yr">-</div>
+    </div>
+    <div style="text-align:right;flex-shrink:0;">
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:6px;">Equivalent to</div>
+      <div id="hero-equiv-primary" style="font-size:15px;font-weight:500;color:var(--color-text-primary);"></div>
+      <div id="hero-equiv-secondary" style="font-size:12px;color:var(--color-text-secondary);margin-top:2px;"></div>
+    </div>
+  </div>
+  <div class="buys-rest" id="buys-rest"></div>
+</div>
+
+<div class="progress-strip">
+  <div class="ps-label">Savings unlocked as a share of full optimization potential</div>
+  <div class="ps-track">
+    <div class="ps-seg crawl" id="bar-crawl"></div>
+    <div class="ps-seg walk" id="bar-walk"></div>
+    <div class="ps-seg run" id="bar-run"></div>
+  </div>
+  <div class="ps-legend">
+    <div class="ps-leg-item"><div class="ps-dot crawl"></div><span class="ps-leg-label" id="leg-crawl">-</span></div>
+    <div class="ps-leg-item"><div class="ps-dot walk"></div><span class="ps-leg-label" id="leg-walk">-</span></div>
+    <div class="ps-leg-item"><div class="ps-dot run"></div><span class="ps-leg-label" id="leg-run">-</span></div>
+  </div>
+</div>
+
+<div class="phase-content" id="phase-detail"></div>
+
+<div class="footnote" id="footnote"></div>
+</div>
+
+<script>
+const fmt=(n)=>{n=Math.round(n);if(n>=1000000)return'$'+(n/1000000).toFixed(2)+'M';if(n>=1000)return'$'+Math.round(n/1000)+'K';return'$'+n.toLocaleString();};
+
+const DAYS=260,AVG_IN=3000;
+const OPUS_IN=5,OPUS_OUT=25,OPUS_OUT_T=1100;
+const SLM_IN=0.1,SLM_OUT=0.3,SLM_OUT_T=250;
+const HAI_IN=1,HAI_OUT=5,HAI_OUT_T=300;
+const SON_IN=3,SON_OUT=15,SON_OUT_T=600;
+
+let currentPhase='crawl';
+
+const PHASE_DEF={
+  crawl:{timeframe:'Months 1-3',title:'Governance foundation',note:'These savings come from policy and visibility work alone - no engineering required. The governance hire more than pays for itself here.',
+    levers:[
+      {icon:'ti-user-check',name:'Model routing policy',tag:'new',desc:'Establish clear guidelines on which task types warrant which models. Even informal policy stops teams defaulting to the most expensive model for everything.',timeline:'Achievable in the first 4-6 weeks with no tooling.',routingFactor:0.5,ragFactor:0,cacheFactor:0,effortFactor:0,batchFactor:0},
+      {icon:'ti-file-description',name:'Prompt standards',tag:'new',desc:'Standardize output format and length instructions across teams. Reduces token waste from over-verbose responses nobody reads.',timeline:'Policy change; no engineering required.',routingFactor:0,ragFactor:0,cacheFactor:0,effortFactor:0.3,batchFactor:0},
+      {icon:'ti-chart-bar',name:'Usage visibility',tag:'new',desc:'Basic logging so you can see who is using which models at what volume. You cannot optimize what you cannot see - and this data drives the walk phase.',timeline:'Light instrumentation; surfaces quick wins.',routingFactor:0,ragFactor:0,cacheFactor:0,effortFactor:0,batchFactor:0},
+    ]},
+  walk:{timeframe:'Months 4-9',title:'Technical optimization',note:'Walk phase requires real engineering work but unlocks the biggest per-call savings. RAG alone is often the single largest lever across the full portfolio.',
+    levers:[
+      {icon:'ti-user-check',name:'Model routing policy',tag:'carried',desc:'Routing policy from crawl phase, now backed by usage data.',timeline:'Carried from crawl.',routingFactor:0.5,ragFactor:0,cacheFactor:0,effortFactor:0,batchFactor:0},
+      {icon:'ti-file-description',name:'Prompt standards',tag:'carried',desc:'Output standards from crawl phase.',timeline:'Carried from crawl.',routingFactor:0,ragFactor:0,cacheFactor:0,effortFactor:0.3,batchFactor:0},
+      {icon:'ti-cpu',name:'Automated model routing',tag:'new',desc:'Routing logic in code: classify request complexity and route to the right tier automatically. No longer relies on user judgment.',timeline:'Requires engineering investment; builds on crawl-phase usage data.',routingFactor:0.5,ragFactor:0,cacheFactor:0,effortFactor:0,batchFactor:0},
+      {icon:'ti-database',name:'RAG / context trimming',tag:'new',desc:'Stop sending full documents on every call. Retrieve only relevant chunks. Dramatically reduces input volume - typically the biggest single lever.',timeline:'Architecture work per use case; highest-impact optimization.',routingFactor:0,ragFactor:1,cacheFactor:0,effortFactor:0,batchFactor:0},
+      {icon:'ti-adjustments',name:'Effort right-sizing',tag:'new',desc:'Configure output length and format per use case via code, not just policy. Stop paying for verbosity nobody reads.',timeline:'Config change once prompt standards are established.',routingFactor:0,ragFactor:0,cacheFactor:0,effortFactor:0.7,batchFactor:0},
+    ]},
+  run:{timeframe:'Months 10-18',title:'Full optimization',note:'Run-phase levers require stable patterns from the walk phase to be effective. Caching only pays off once prompts are standardized; batching only works once usage patterns are understood.',
+    levers:[
+      {icon:'ti-cpu',name:'Automated model routing',tag:'carried',desc:'Full routing stack from walk phase.',timeline:'Carried from walk.',routingFactor:1,ragFactor:0,cacheFactor:0,effortFactor:0,batchFactor:0},
+      {icon:'ti-database',name:'RAG / context trimming',tag:'carried',desc:'Context optimization from walk phase.',timeline:'Carried from walk.',routingFactor:0,ragFactor:1,cacheFactor:0,effortFactor:0,batchFactor:0},
+      {icon:'ti-adjustments',name:'Effort right-sizing',tag:'carried',desc:'Output optimization from walk phase.',timeline:'Carried from walk.',routingFactor:0,ragFactor:0,cacheFactor:0,effortFactor:1,batchFactor:0},
+      {icon:'ti-clock',name:'Prompt caching',tag:'new',desc:'Cache repeated system prompts and stable context. 70% hit rate at 90% discount is realistic for standardized workflows built in the walk phase.',timeline:'Only effective once prompts are stable - requires walk phase first.',routingFactor:0,ragFactor:0,cacheFactor:1,effortFactor:0,batchFactor:0},
+      {icon:'ti-arrows-sort',name:'Batch processing',tag:'new',desc:'Route non-latency-sensitive workloads through async APIs at 50% off. Reporting, digests, analysis runs. Only viable once usage patterns are well-mapped.',timeline:'Requires workflow redesign; depends on walk-phase visibility data.',routingFactor:0,ragFactor:0,cacheFactor:0,effortFactor:0,batchFactor:1},
+    ]}
+};
+
+function computePhase(emp,req,phaseName){
+  const annualReqs=emp*req*DAYS,inTok=AVG_IN;
+  const uCPR=(inTok/1e6)*OPUS_IN+(OPUS_OUT_T/1e6)*OPUS_OUT;
+  const uAnnual=uCPR*annualReqs;
+  const p=PHASE_DEF[phaseName];
+  let tR=0,tRag=0,tC=0,tE=0,tB=0;
+  p.levers.forEach(l=>{tR+=l.routingFactor;tRag+=l.ragFactor;tC+=l.cacheFactor;tE+=l.effortFactor;tB+=l.batchFactor;});
+  const rR=Math.min(tR,1),rRag=Math.min(tRag,1),rC=Math.min(tC,1),rE=Math.min(tE,1),rB=Math.min(tB,1);
+  const mixCPR=0.4*((inTok/1e6)*SLM_IN+(SLM_OUT_T/1e6)*SLM_OUT)+0.3*((inTok/1e6)*HAI_IN+(HAI_OUT_T/1e6)*HAI_OUT)+0.25*((inTok/1e6)*SON_IN+(SON_OUT_T/1e6)*SON_OUT)+0.05*((inTok/1e6)*OPUS_IN+(OPUS_OUT_T/1e6)*OPUS_OUT);
+  const baseCPR=uCPR*(1-rR)+mixCPR*rR;
+  const effectiveIn=inTok*(1-0.85*rRag);
+  const ragSave=((inTok-effectiveIn)/1e6)*(0.4*SLM_IN+0.3*HAI_IN+0.25*SON_IN+0.05*OPUS_IN)*rRag;
+  const cachedTok=effectiveIn*0.7*rC;
+  const cacheSave=(cachedTok/1e6)*(0.4*SLM_IN+0.3*HAI_IN+0.25*SON_IN+0.05*OPUS_IN)*0.9;
+  const effortSave=(OPUS_OUT_T*0.4*rE/1e6)*(0.4*SLM_OUT+0.3*HAI_OUT+0.25*SON_OUT+0.05*OPUS_OUT);
+  const totalSavePerReq=(uCPR-baseCPR)+ragSave+cacheSave+effortSave;
+  const preBatch=uAnnual-(totalSavePerReq*annualReqs);
+  const batchSave=preBatch*0.4*0.5*rB;
+  const phaseCost=preBatch-batchSave;
+  const phaseSaving=uAnnual-phaseCost;
+  const leverSavings=p.levers.map(l=>{
+    const lR=Math.min(l.routingFactor,1),lRag=Math.min(l.ragFactor,1),lC=Math.min(l.cacheFactor,1),lE=Math.min(l.effortFactor,1),lB=Math.min(l.batchFactor,1);
+    const lRagSave=((inTok*0.85*lRag)/1e6)*(0.4*SLM_IN+0.3*HAI_IN+0.25*SON_IN+0.05*OPUS_IN)*annualReqs;
+    const lCacheSave=(inTok*0.85*lC*0.7/1e6)*(0.4*SLM_IN+0.3*HAI_IN+0.25*SON_IN+0.05*OPUS_IN)*0.9*annualReqs;
+    const lEffortSave=(OPUS_OUT_T*0.4*lE/1e6)*(0.4*SLM_OUT+0.3*HAI_OUT+0.25*SON_OUT+0.05*OPUS_OUT)*annualReqs;
+    const lBatchSave=lB>0?batchSave:0;
+    const lRoutingSave=lR>0?Math.abs((uCPR-baseCPR)*annualReqs*(lR/Math.max(rR,0.001))):0;
+    return Math.max(0,lRoutingSave+lRagSave+lCacheSave+lEffortSave+lBatchSave);
+  });
+  return{uAnnual,phaseCost,phaseSaving,leverSavings};
+}
+
+function setPhase(p){
+  currentPhase=p;
+  ['crawl','walk','run'].forEach(x=>{
+    document.getElementById('tab-'+x).className='pn'+(x===p?' active '+x:'');
+  });
+  render();
+}
+
+function render(){
+  const emp=parseInt(document.getElementById('s-emp').value);
+  const req=parseInt(document.getElementById('s-req').value);
+  document.getElementById('v-emp').textContent=emp.toLocaleString();
+  document.getElementById('v-req').textContent=req.toLocaleString();
+
+  const crawl=computePhase(emp,req,'crawl');
+  const walk=computePhase(emp,req,'walk');
+  const run=computePhase(emp,req,'run');
+
+  document.getElementById('tab-crawl-amt').textContent=fmt(crawl.phaseSaving)+'/yr';
+  document.getElementById('tab-crawl-prev').textContent='';
+  document.getElementById('tab-walk-amt').textContent=fmt(walk.phaseSaving)+'/yr';
+  document.getElementById('tab-walk-prev').textContent='includes crawl savings';
+  document.getElementById('tab-run-amt').textContent=fmt(run.phaseSaving)+'/yr';
+  document.getElementById('tab-run-prev').textContent='includes walk + crawl savings';
+
+  const totalPossible=Math.max(run.phaseSaving,1);
+  const crawlPct=Math.round((crawl.phaseSaving/totalPossible)*100);
+  const walkAdd=Math.round(((walk.phaseSaving-crawl.phaseSaving)/totalPossible)*100);
+  const runAdd=Math.round(((run.phaseSaving-walk.phaseSaving)/totalPossible)*100);
+  document.getElementById('bar-crawl').style.width=crawlPct+'%';
+  document.getElementById('bar-walk').style.width=walkAdd+'%';
+  document.getElementById('bar-run').style.width=runAdd+'%';
+  document.getElementById('leg-crawl').textContent='Crawl (mo. 1-3): '+crawlPct+'% of potential';
+  document.getElementById('leg-walk').textContent='Walk adds '+walkAdd+'%';
+  document.getElementById('leg-run').textContent='Run adds '+runAdd+'%';
+
+  const cur=currentPhase==='crawl'?crawl:currentPhase==='walk'?walk:run;
+  const p=PHASE_DEF[currentPhase];
+  const maxLS=Math.max(...cur.leverSavings,1);
+
+  const heroEl=document.getElementById('buys-hero');
+  heroEl.className='buys-hero '+currentPhase;
+  document.getElementById('hero-savings').className='buys-hero-count '+currentPhase;
+  document.getElementById('hero-label').className='buys-hero-label '+currentPhase;
+  document.getElementById('hero-savings').textContent=fmt(cur.phaseSaving);
+  document.getElementById('hero-label').textContent='annual savings';
+  document.getElementById('hero-5yr').textContent=fmt(cur.phaseSaving*5)+' over 5 years';
+
+  const extras=[
+    {cost:80000,label:'general hires (loaded $80K)',icon:'ti-users'},
+    {cost:1800,label:'laptop replacements',icon:'ti-device-laptop'},
+    {cost:500,label:'professional certifications',icon:'ti-certificate'},
+    {cost:2000,label:'conference registrations',icon:'ti-presentation'},
+  ];
+
+  const firstValid=extras.find(e=>Math.floor(cur.phaseSaving/e.cost)>=1);
+  if(firstValid){
+    const count=Math.floor(cur.phaseSaving/firstValid.cost);
+    document.getElementById('hero-equiv-primary').innerHTML=count.toLocaleString()+'x <i class="ti '+firstValid.icon+'" style="font-size:14px;vertical-align:-2px;" aria-hidden="true"></i>';
+    document.getElementById('hero-equiv-secondary').textContent=firstValid.label;
+  } else {
+    document.getElementById('hero-equiv-primary').textContent='';
+    document.getElementById('hero-equiv-secondary').textContent='';
+  }
+
+  const restExtras=firstValid?extras.slice(extras.indexOf(firstValid)+1):extras;
+  const eHtml=restExtras.map(e=>({...e,count:Math.floor(cur.phaseSaving/e.cost)})).filter(e=>e.count>=1)
+    .map(e=>`<div class="eq"><div class="eq-num">${e.count.toLocaleString()}x <i class="ti ${e.icon}" style="font-size:14px;vertical-align:-2px;" aria-hidden="true"></i></div><div class="eq-label">${e.label}</div></div>`).join('');
+  document.getElementById('buys-rest').innerHTML=eHtml;
+
+  const rows=p.levers.map((l,i)=>`
+    <div class="lever-row">
+      <i class="ti ${l.icon} lever-icon" aria-hidden="true"></i>
+      <div class="lever-body">
+        <div class="lever-top">
+          <div style="display:flex;align-items:center;gap:6px;">
+            <span class="lever-name">${l.name}</span>
+            <span class="lever-tag ${l.tag==='new'?'new':'carried'}">${l.tag==='new'?'new this phase':'carried forward'}</span>
+          </div>
+          <span class="lever-amt">${fmt(cur.leverSavings[i])}/yr</span>
+        </div>
+        <div class="lever-desc">${l.desc}</div>
+        <div class="lever-timeline"><i class="ti ti-clock" style="font-size:11px;vertical-align:-1px;" aria-hidden="true"></i> ${l.timeline}</div>
+        <div class="bar-track"><div class="bar-fill ${currentPhase}" style="width:${Math.round((cur.leverSavings[i]/maxLS)*100)}%"></div></div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('phase-detail').innerHTML=`
+    <div class="phase-header">
+      <span class="phase-title">Active levers - cumulative savings</span>
+      <span class="phase-badge ${currentPhase}">${p.timeframe}</span>
+    </div>
+    ${rows}
+    <div style="margin-top:12px;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary);font-size:12px;color:var(--color-text-secondary);font-style:italic;">${p.note}</div>`;
+
+  document.getElementById('footnote').innerHTML=`<strong>Assumptions:</strong> ${DAYS} working days/year. Average 3,000 input tokens per request (fixed). Unmanaged: Opus 4.8 at $${OPUS_IN}/$${OPUS_OUT} per 1M tokens, ${OPUS_OUT_T} output tokens, no optimization. Crawl: 50% model routing via policy + 30% effort reduction. Walk: full routing automation + RAG (reduces input to 15%) + full effort right-sizing. Run: adds 70% prompt cache hit rate at 90% discount + 40% of requests batched at 50% off. Each phase is cumulative. All figures directional.`;
+}
+
+['s-emp','s-req'].forEach(id=>{document.getElementById(id).addEventListener('input',render);});
+render();
+</script>

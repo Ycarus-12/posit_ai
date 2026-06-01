@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Tooling Cost Model · Posit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:      #447099;
+  --blue-lt:   #d0dde9;
+  --blue-bg:   #eef3f8;
+  --orange:    #ee6331;
+  --orange-lt: #fde8df;
+  --orange-dk: #c94e1f;
+  --teal:      #419599;
+  --green:     #729943;
+  --gray:      #404041;
+  --gray-lt:   #c2c2c4;
+  --gray-bg:   #f4f4f4;
+  --black:     #151515;
+  --border:    #d4d4d5;
+  --bg:        #f6f7f8;
+  --card:      #ffffff;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400; color: var(--black);
+  background: var(--bg); line-height: 1.6; font-size: 15px;
+}
+
+.page { max-width: 960px; margin: 0 auto; padding: 2.25rem 1.75rem 4rem; }
+
+/* topbar */
+.topbar {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 2.25rem; padding-bottom: 1.1rem;
+  border-bottom: 2.5px solid var(--blue);
+}
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 6px;
+  background: var(--blue); display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0;
+}
+.logo-mark span {
+  font-family: 'Source Code Pro', monospace; font-weight: 600;
+  font-size: 14px; color: #fff;
+}
+.topbar-eyebrow .brand {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--blue); display: block;
+}
+.topbar-eyebrow .doc { font-size: 11px; color: var(--gray); }
+
+/* headline */
+h1 {
+  font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 300;
+  line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 0.6rem;
+}
+h1 strong { font-weight: 600; color: var(--blue); }
+.lede {
+  font-size: 0.95rem; color: var(--gray);
+  max-width: 64ch; margin-bottom: 2rem; line-height: 1.75;
+}
+
+/* ---- HERO NUMBERS ---- */
+.hero-band {
+  background: var(--blue); border-radius: 12px;
+  padding: 2rem 2.25rem 1.75rem; margin-bottom: 0.75rem; color: #fff;
+}
+.hero-eyebrow {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: rgba(255,255,255,0.55);
+  margin-bottom: 1.25rem;
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 0; border-top: 1px solid rgba(255,255,255,0.18);
+}
+@media(max-width:600px){ .hero-grid { grid-template-columns: 1fr; } }
+.hero-cell {
+  padding: 1.1rem 0 0.9rem;
+}
+.hero-cell + .hero-cell {
+  padding-left: 1.75rem;
+  border-left: 1px solid rgba(255,255,255,0.18);
+  margin-left: 0;
+}
+.hero-cell-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: rgba(255,255,255,0.5);
+  margin-bottom: 0.3rem;
+}
+.hero-cell-num {
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem); font-weight: 600;
+  line-height: 1; letter-spacing: -0.02em; color: #fff;
+  transition: all 0.25s ease;
+}
+.hero-cell-sub {
+  font-size: 0.75rem; color: rgba(255,255,255,0.6);
+  margin-top: 0.3rem; font-family: 'Source Code Pro', monospace;
+}
+.hero-cell-sub b { color: rgba(255,255,255,0.85); }
+
+/* ---- TTV strip ---- */
+.ttv-strip {
+  background: var(--orange-lt); border: 1px solid #f5c4ae;
+  border-radius: 8px; padding: 0.85rem 1.25rem;
+  display: flex; align-items: baseline; gap: 0.6rem;
+  margin-bottom: 1.75rem; flex-wrap: wrap;
+}
+.ttv-strip .ttv-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 9.5px; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--orange-dk); flex-shrink: 0;
+}
+.ttv-strip .ttv-body { font-size: 0.88rem; color: var(--gray); }
+.ttv-strip .ttv-body b { color: var(--orange-dk); font-weight: 600; }
+
+/* ---- CHART ---- */
+.chart-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.35rem 1.5rem 1.5rem;
+  margin-bottom: 1.75rem;
+}
+.chart-title { font-size: 0.85rem; font-weight: 600; color: var(--gray); margin-bottom: 0.2rem; }
+.chart-sub { font-size: 0.74rem; color: var(--gray-lt); margin-bottom: 1.35rem; }
+.bars-wrap { display: flex; gap: 1.5rem; align-items: flex-end; height: 180px; padding-bottom: 1.75rem; }
+.bar-col { flex: 1; display: flex; flex-direction: column; height: 100%; }
+.bar-top-lbl {
+  font-family: 'Source Code Pro', monospace; font-size: 0.74rem;
+  font-weight: 600; text-align: center; margin-bottom: 0.3rem; min-height: 1.15rem;
+  transition: all 0.3s;
+}
+.bar-outer {
+  flex: 1; display: flex; flex-direction: column; justify-content: flex-end;
+  border-radius: 5px 5px 0 0; overflow: hidden;
+  border: 1px solid var(--border); border-bottom: none; background: var(--gray-bg);
+}
+.bar-seg {
+  transition: flex-grow 0.4s cubic-bezier(0.2,0.8,0.2,1);
+  display: flex; align-items: center; justify-content: center; min-height: 0;
+}
+.seg-lbl {
+  font-family: 'Source Code Pro', monospace; font-size: 0.62rem; font-weight: 600;
+  color: rgba(255,255,255,0.85); text-align: center; padding: 2px; overflow: hidden; white-space: nowrap;
+}
+.seg-build  { background: var(--orange); }
+.seg-maint  { background: var(--blue); }
+.seg-new    { background: #f5a988; }
+.seg-new .seg-lbl { color: var(--orange-dk); }
+.bar-floor  { height: 3px; background: var(--gray); border-radius: 0 0 3px 3px; }
+.bar-bot-lbl { font-size: 0.8rem; font-weight: 600; color: var(--gray); text-align: center; margin-top: 0.5rem; }
+.legend {
+  display: flex; flex-wrap: wrap; gap: 0.6rem 1.25rem;
+  margin-top: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--border);
+}
+.leg-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.73rem; color: var(--gray); }
+.leg-swatch { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+
+/* ---- ADJUST TOGGLE ---- */
+.adjust-toggle {
+  width: 100%; background: var(--blue-bg);
+  border: 2px dashed var(--blue);
+  border-radius: 10px; padding: 1.1rem 1.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; font-size: 0.95rem; font-weight: 600; color: var(--blue);
+  margin-bottom: 0; transition: background 0.15s, border-color 0.15s;
+  letter-spacing: 0.01em;
+}
+.adjust-toggle:hover { background: var(--blue-lt); border-color: var(--blue); }
+.adjust-toggle.open { background: var(--blue-lt); border-style: solid; border-radius: 10px 10px 0 0; }
+.adjust-toggle .chev { font-size: 1rem; transition: transform 0.2s; flex-shrink: 0; }
+.adjust-toggle.open .chev { transform: rotate(180deg); }
+.adjust-toggle .toggle-main { display: flex; flex-direction: column; gap: 0.15rem; }
+.adjust-toggle .toggle-label { display: flex; align-items: center; gap: 0.6rem; }
+.adjust-toggle .toggle-icon { font-size: 1.05rem; }
+.adjust-toggle .toggle-sub {
+  font-size: 0.76rem; font-weight: 400; color: var(--blue); opacity: 0.75;
+}
+
+/* ---- INPUT PANEL ---- */
+#input-panel {
+  display: none; background: var(--card);
+  border: 1px solid var(--border); border-top: none;
+  border-radius: 0 0 10px 10px; padding: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+#input-panel.open { display: block; }
+
+.input-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0 2.5rem;
+}
+@media(max-width:660px){ .input-grid { grid-template-columns: 1fr; } }
+
+.group-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 9.5px; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--blue);
+  margin-bottom: 0.9rem; margin-top: 1.25rem; padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--blue-lt); grid-column: 1 / -1;
+}
+.group-label:first-child { margin-top: 0; }
+.field { margin-bottom: 1.1rem; }
+.field label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--black); margin-bottom: 0.15rem; }
+.hint { font-size: 0.73rem; color: var(--gray); margin-bottom: 0.4rem; line-height: 1.5; }
+.hint em { font-style: normal; font-weight: 600; color: var(--teal); font-family: 'Source Code Pro', monospace; font-size: 0.69rem; }
+.ctrl { display: flex; align-items: center; gap: 0.65rem; }
+input[type=range] {
+  flex: 1; -webkit-appearance: none; appearance: none;
+  height: 3px; background: var(--blue-lt); border-radius: 2px; outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 15px; height: 15px; border-radius: 50%;
+  background: var(--card); border: 2px solid var(--blue); cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12); transition: transform 0.12s;
+}
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+input[type=range]::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--card); border: 2px solid var(--blue); cursor: pointer;
+}
+.nbox {
+  width: 105px; flex-shrink: 0; text-align: right;
+  font-family: 'Source Code Pro', monospace; font-size: 0.82rem; font-weight: 500;
+  color: var(--black); padding: 0.3rem 0.5rem;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 5px;
+}
+.nbox:focus { outline: none; border-color: var(--blue); background: var(--card); }
+
+/* breakdown */
+.breakdown { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 1.75rem; }
+.brow {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); gap: 1rem;
+}
+.brow:last-child { border-bottom: none; }
+.brow.sec-head { background: var(--gray-bg); padding: 0.4rem 1rem; }
+.brow.sec-head .b-name {
+  font-family: 'Source Code Pro', monospace; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray);
+}
+.brow.subtotal { background: var(--blue-bg); }
+.b-left { flex: 1; }
+.b-name { font-size: 0.86rem; color: var(--black); }
+.b-formula { font-family: 'Source Code Pro', monospace; font-size: 0.66rem; color: var(--gray-lt); margin-top: 0.1rem; }
+.b-val { font-family: 'Source Code Pro', monospace; font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
+.b-val.orange { color: var(--orange); }
+.b-val.blue   { color: var(--blue); }
+.b-val.black  { color: var(--black); }
+.scale-note {
+  font-family: 'Source Code Pro', monospace; font-size: 0.72rem; color: var(--teal);
+  padding: 0.4rem 1rem 0.65rem; text-align: right; border-top: 1px solid var(--border);
+}
+
+/* close */
+.close-card {
+  background: var(--green); border-radius: 10px;
+  padding: 1.6rem 1.85rem; color: #fff; margin-bottom: 1.5rem;
+}
+.close-card p { font-size: 0.97rem; font-weight: 300; line-height: 1.7; max-width: 70ch; margin-bottom: 0.65rem; }
+.close-card p:last-of-type { margin-bottom: 0; }
+.close-card p strong { font-weight: 600; }
+.close-fine {
+  font-family: 'Source Code Pro', monospace; font-size: 0.67rem;
+  color: rgba(255,255,255,0.55); margin-top: 0.85rem; line-height: 1.7;
+}
+.footnote { font-size: 0.71rem; color: var(--gray); line-height: 1.75; max-width: 80ch; }
+.footnote b { color: var(--black); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="topbar">
+    <div class="logo-mark"><span>P</span></div>
+    <div class="topbar-eyebrow">
+      <span class="brand">Posit, PBC</span>
+      <span class="doc">Internal AI Tooling &nbsp;&middot;&nbsp; Capacity Cost Model</span>
+    </div>
+  </div>
+
+  <h1>Leadership has made AI a priority.<br><strong>Here is what it costs without the right structure.</strong></h1>
+  <p class="lede">Building AI tools takes real time from real people. When there is no dedicated function to own that work, it falls on whoever is available, in whatever hours they can spare, with no shared standard and no plan for what happens when things change next month.</p>
+
+  <!-- HERO -->
+  <div class="hero-band">
+    <div class="hero-eyebrow">Year 1 &nbsp;&middot;&nbsp; ad hoc capacity cost &nbsp;&middot;&nbsp; 10 tools, team of 10</div>
+    <div class="hero-grid">
+      <div class="hero-cell">
+        <div class="hero-cell-label">Hours diverted from real work</div>
+        <div class="hero-cell-num" id="h_hours">2,700 hrs</div>
+        <div class="hero-cell-sub">avg <b id="h_per_person">22.5 hrs</b> / person / month</div>
+      </div>
+      <div class="hero-cell">
+        <div class="hero-cell-label">Dollar cost, Year 1</div>
+        <div class="hero-cell-num" id="h_yr1">$166,400</div>
+        <div class="hero-cell-sub">build + first year of maintenance</div>
+      </div>
+      <div class="hero-cell">
+        <div class="hero-cell-label">3-year running total</div>
+        <div class="hero-cell-num" id="h_3yr">$374,400</div>
+        <div class="hero-cell-sub">as portfolio grows by 2 tools/yr</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TTV -->
+  <div class="ttv-strip">
+    <span class="ttv-label">Time lost</span>
+    <span class="ttv-body" id="ttv_body">Each tool ships <b>1 month later</b> than it would with a dedicated function. Across <b>10 tools</b>, that is <b>10 months of combined delay</b> before any value is captured.</span>
+  </div>
+
+  <!-- CHART -->
+  <div class="chart-card">
+    <div class="chart-title">Three-year cost profile, ad hoc</div>
+    <div class="chart-sub">Year 1 carries the initial build spike. After that the maintenance tax runs every year and grows as the portfolio does.</div>
+    <div class="bars-wrap">
+      <div class="bar-col">
+        <div class="bar-top-lbl" id="lbl_y1" style="color:var(--orange)"></div>
+        <div class="bar-outer">
+          <div class="bar-seg seg-build" id="seg_y1_build"><span class="seg-lbl" id="slbl_y1_build"></span></div>
+          <div class="bar-seg seg-maint" id="seg_y1_maint"><span class="seg-lbl" id="slbl_y1_maint"></span></div>
+        </div>
+        <div class="bar-floor"></div>
+        <div class="bar-bot-lbl">Year 1</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-top-lbl" id="lbl_y2" style="color:var(--blue)"></div>
+        <div class="bar-outer">
+          <div class="bar-seg seg-new" id="seg_y2_new"><span class="seg-lbl" id="slbl_y2_new"></span></div>
+          <div class="bar-seg seg-maint" id="seg_y2_maint"><span class="seg-lbl" id="slbl_y2_maint"></span></div>
+        </div>
+        <div class="bar-floor"></div>
+        <div class="bar-bot-lbl">Year 2</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-top-lbl" id="lbl_y3" style="color:var(--blue)"></div>
+        <div class="bar-outer">
+          <div class="bar-seg seg-new" id="seg_y3_new"><span class="seg-lbl" id="slbl_y3_new"></span></div>
+          <div class="bar-seg seg-maint" id="seg_y3_maint"><span class="seg-lbl" id="slbl_y3_maint"></span></div>
+        </div>
+        <div class="bar-floor"></div>
+        <div class="bar-bot-lbl">Year 3</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="leg-item"><div class="leg-swatch" style="background:var(--orange)"></div>Initial build cost (Year 1)</div>
+      <div class="leg-item"><div class="leg-swatch" style="background:var(--blue)"></div>Ongoing maintenance</div>
+      <div class="leg-item"><div class="leg-swatch" style="background:#f5a988;border:1px solid #f5c4ae"></div>New builds per year</div>
+    </div>
+  </div>
+
+  <!-- OPPORTUNITY TURN -->
+  <div class="close-card">
+    <p>These costs are not a reason to avoid AI tooling. They are a reason to own it properly. <strong>The right function eliminates the Year 1 spike</strong> by absorbing the build. It cuts the ongoing tax by maintaining the portfolio systematically. And because each build informs the next, a dedicated team ships new tools faster every year, not slower.</p>
+    <p>The question is not whether to build. The question is whether the hidden cost of doing it ad hoc is a plan you are comfortable with.</p>
+    <div class="close-fine">All inputs are adjustable. Defaults are conservative and sourced. Your actual numbers are likely larger, not smaller.</div>
+  </div>
+
+  <!-- ADJUST TOGGLE -->
+  <button class="adjust-toggle" id="adjustBtn">
+    <span class="toggle-main">
+      <span class="toggle-label"><span class="toggle-icon">&#9881;</span> Adjust the assumptions for your team</span>
+      <span class="toggle-sub">Defaults are conservative and sourced &mdash; but your numbers will be more accurate</span>
+    </span>
+    <span class="chev">&#9660;</span>
+  </button>
+
+  <!-- INPUT PANEL -->
+  <div id="input-panel">
+    <div class="input-grid">
+
+      <div class="group-label">Your team</div>
+
+      <div class="field">
+        <label>Average base salary of the people doing the work</label>
+        <div class="hint">The CSM, analyst, or ops lead pulled in around their real job. <em>default: CS manager band, Posit-published</em></div>
+        <div class="ctrl">
+          <input type="range" id="salary" min="50000" max="220000" step="1000" value="96000">
+          <input type="text" class="nbox" id="salary_n" value="$96,000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Number of people on your team</label>
+        <div class="hint">For the per-person monthly calculation. <em>default: 10</em></div>
+        <div class="ctrl">
+          <input type="range" id="team_size" min="1" max="60" step="1" value="10">
+          <input type="text" class="nbox" id="team_size_n" value="10">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Loaded cost multiplier</label>
+        <div class="hint">Benefits, taxes, overhead on top of base. <em>default: 1.30&times;</em></div>
+        <div class="ctrl">
+          <input type="range" id="loaded" min="1.0" max="2.0" step="0.05" value="1.3">
+          <input type="text" class="nbox" id="loaded_n" value="1.30&times;">
+        </div>
+      </div>
+
+      <div class="group-label">The portfolio</div>
+
+      <div class="field">
+        <label>AI tools your team plans to build</label>
+        <div class="hint">Agents, automations, internal assistants, pipelines. <em>default: 10</em></div>
+        <div class="ctrl">
+          <input type="range" id="tools" min="1" max="20" step="1" value="10">
+          <input type="text" class="nbox" id="tools_n" value="10">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>New tools added per year, ongoing</label>
+        <div class="hint">The portfolio does not stay static. <em>default: 2 / year</em></div>
+        <div class="ctrl">
+          <input type="range" id="new_per_yr" min="0" max="10" step="1" value="2">
+          <input type="text" class="nbox" id="new_per_yr_n" value="2 / yr">
+        </div>
+      </div>
+
+      <div class="group-label">The build</div>
+
+      <div class="field">
+        <label>Hours to build one tool (full scope)</label>
+        <div class="hint">Includes: stakeholder interviews, planning, iterative build, testing, documentation, rollout, training, process doc updates, and ownership handoff. 40 hours is conservative for that scope. <em>default: 40 hrs</em></div>
+        <div class="ctrl">
+          <input type="range" id="build_hrs" min="8" max="160" step="4" value="40">
+          <input type="text" class="nbox" id="build_hrs_n" value="40 hrs">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Redundancy factor</label>
+        <div class="hint">Without a shared owner, people build independently. 1.5x means the same effort happens 1.5 times across the team. <em>default: 1.5&times;</em></div>
+        <div class="ctrl">
+          <input type="range" id="redundancy" min="1.0" max="3.0" step="0.1" value="1.5">
+          <input type="text" class="nbox" id="redundancy_n" value="1.5&times;">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Months to ship, ad hoc</label>
+        <div class="hint">When it competes with a full-time job. <em>default: 2 months</em></div>
+        <div class="ctrl">
+          <input type="range" id="ttv_adhoc" min="1" max="12" step="1" value="2">
+          <input type="text" class="nbox" id="ttv_adhoc_n" value="2 mo">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Months to ship, with a dedicated function</label>
+        <div class="hint">One owner, shared framework, no competing priorities. <em>default: 1 month</em></div>
+        <div class="ctrl">
+          <input type="range" id="ttv_func" min="0.5" max="6" step="0.5" value="1">
+          <input type="text" class="nbox" id="ttv_func_n" value="1.0 mo">
+        </div>
+      </div>
+
+      <div class="group-label">The ongoing maintenance</div>
+
+      <div class="field">
+        <label>Maintenance updates per tool, per month</label>
+        <div class="hint">Every process change, tool integration, or model update has to be reflected manually or the agent starts giving wrong answers, silently. <em>default: 2.5 - from a real production agent</em></div>
+        <div class="ctrl">
+          <input type="range" id="freq" min="0.5" max="8" step="0.5" value="2.5">
+          <input type="text" class="nbox" id="freq_n" value="2.5 / mo">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Hours per update</label>
+        <div class="hint">Identify what changed, locate the affected part, correct, test, redeploy, confirm output, communicate to the team. <em>default: 4 hrs</em></div>
+        <div class="ctrl">
+          <input type="range" id="upd_hrs" min="0.5" max="8" step="0.5" value="4">
+          <input type="text" class="nbox" id="upd_hrs_n" value="4.0 hrs">
+        </div>
+      </div>
+
+    </div><!-- /input-grid -->
+  </div><!-- /input-panel -->
+
+  <!-- BREAKDOWN -->
+  <div class="breakdown" id="breakdown"></div>
+  <div class="scale-note" id="scale_note"></div>
+
+
+
+  <p class="footnote"><b>On the assumptions.</b> Maintenance frequency is anchored to a real internal process agent updated 2-3 times per month. Build hours assume a capable non-specialist without a shared framework, context-switching around their primary job. The redundancy factor captures independent parallel effort when no single owner coordinates the work. Salary default reflects a published Posit CS manager compensation band. Loaded multiplier is a standard industry estimate.</p>
+
+</div>
+<script>
+(function(){
+  var CFG = {
+    salary:     {r:'salary',     n:'salary_n',     fmt:function(v){return '$'+Math.round(v).toLocaleString();}, parse:parseDollar},
+    team_size:  {r:'team_size',  n:'team_size_n',  fmt:function(v){return ''+v;},                              parse:parseI},
+    loaded:     {r:'loaded',     n:'loaded_n',     fmt:function(v){return (+v).toFixed(2)+'\xd7';},            parse:parseF},
+    tools:      {r:'tools',      n:'tools_n',      fmt:function(v){return ''+v;},                              parse:parseI},
+    new_per_yr: {r:'new_per_yr', n:'new_per_yr_n', fmt:function(v){return v+' / yr';},                        parse:parseI},
+    build_hrs:  {r:'build_hrs',  n:'build_hrs_n',  fmt:function(v){return v+' hrs';},                         parse:parseI},
+    redundancy: {r:'redundancy', n:'redundancy_n',  fmt:function(v){return (+v).toFixed(1)+'\xd7';},           parse:parseF},
+    ttv_adhoc:  {r:'ttv_adhoc',  n:'ttv_adhoc_n',  fmt:function(v){return v+' mo';},                          parse:parseI},
+    ttv_func:   {r:'ttv_func',   n:'ttv_func_n',   fmt:function(v){return (+v).toFixed(1)+' mo';},            parse:parseF},
+    freq:       {r:'freq',       n:'freq_n',       fmt:function(v){return (+v).toFixed(1)+' / mo';},          parse:parseF},
+    upd_hrs:    {r:'upd_hrs',    n:'upd_hrs_n',    fmt:function(v){return (+v).toFixed(1)+' hrs';},           parse:parseF}
+  };
+
+  function parseDollar(s){return +(s.replace(/[^0-9.]/g,''));}
+  function parseF(s){return +(s.replace(/[^0-9.]/g,''));}
+  function parseI(s){return Math.round(+(s.replace(/[^0-9.]/g,'')));}
+  function $(id){return document.getElementById(id);}
+  function money(v){return '$'+Math.round(v).toLocaleString();}
+  function rv(k){return +$(CFG[k].r).value;}
+
+  Object.keys(CFG).forEach(function(k){
+    var c=CFG[k], sl=$(c.r), bx=$(c.n);
+    sl.addEventListener('input',function(){bx.value=c.fmt(sl.value);recalc();});
+    bx.addEventListener('change',function(){
+      var p=c.parse(bx.value);
+      if(isNaN(p)||p===0)p=+sl.value;
+      p=Math.max(+sl.min,Math.min(+sl.max,p));
+      sl.value=p; bx.value=c.fmt(p); recalc();
+    });
+  });
+
+  $('adjustBtn').addEventListener('click',function(){
+    this.classList.toggle('open');
+    $('input-panel').classList.toggle('open');
+  });
+
+  function recalc(){
+    var salary    = rv('salary');
+    var teamSize  = rv('team_size');
+    var loaded    = rv('loaded');
+    var tools     = rv('tools');
+    var newPerYr  = rv('new_per_yr');
+    var buildHrs  = rv('build_hrs');
+    var redundancy= rv('redundancy');
+    var ttvAdhoc  = rv('ttv_adhoc');
+    var ttvFunc   = rv('ttv_func');
+    var freq      = rv('freq');
+    var updHrs    = rv('upd_hrs');
+
+    var rate = salary * loaded / 2080;
+
+    // hours
+    var buildHrsTotal = tools * buildHrs * redundancy;
+    var yr1MaintHrs   = tools * freq * 12 * updHrs;
+    var yr1TotalHrs   = buildHrsTotal + yr1MaintHrs;
+    var perPersonMo   = teamSize > 0 ? yr1TotalHrs / 12 / teamSize : 0;
+
+    // dollars yr1
+    var buildCost  = buildHrsTotal * rate;
+    var yr1Maint   = yr1MaintHrs * rate;
+    var yr1Total   = buildCost + yr1Maint;
+
+    // yr2
+    var maintPerTool = freq * 12 * updHrs * rate;
+    var yr2Maint  = tools * maintPerTool;
+    var yr2Builds = newPerYr * buildHrs * redundancy * rate;
+    var yr2Total  = yr2Maint + yr2Builds;
+
+    // yr3
+    var yr3Tools  = tools + newPerYr;
+    var yr3Maint  = yr3Tools * maintPerTool;
+    var yr3Builds = newPerYr * buildHrs * redundancy * rate;
+    var yr3Total  = yr3Maint + yr3Builds;
+
+    var cumulative = yr1Total + yr2Total + yr3Total;
+    var ttvDelay   = Math.max(0, ttvAdhoc - ttvFunc);
+    var totalDelay = ttvDelay * tools;
+
+    // update eyebrow
+    $('hero-band-eyebrow') && ($('hero-band-eyebrow').textContent =
+      'Year 1 \u00b7 ad hoc capacity cost \u00b7 '+tools+' tools, team of '+teamSize);
+
+    // hero
+    $('h_hours').textContent     = Math.round(yr1TotalHrs).toLocaleString()+' hrs';
+    $('h_per_person').textContent = perPersonMo < 1
+      ? Math.round(perPersonMo*60)+' min'
+      : perPersonMo.toFixed(1)+' hrs';
+    $('h_yr1').textContent       = money(yr1Total);
+    $('h_3yr').textContent       = money(cumulative);
+
+    // ttv
+    if(ttvDelay <= 0){
+      $('ttv_body').innerHTML = 'At current inputs the time-to-value gap between ad hoc and a dedicated function is negligible.';
+    } else {
+      $('ttv_body').innerHTML = 'Each tool ships <b>'+ttvDelay+' month'+(ttvDelay!==1?'s':'')+' later</b> than it would with a dedicated function. Across <b>'+tools+' tools</b>, that is <b>'+totalDelay+' months of combined delay</b> before any value is captured.';
+    }
+
+    // bars
+    var maxV = Math.max(yr1Total, yr2Total, yr3Total);
+    function setBar(bSeg, mSeg, topLbl, bLbl, mLbl, bV, mV){
+      var tot = bV + mV;
+      bSeg.style.flexGrow = maxV>0?(bV/maxV).toFixed(4):'0';
+      mSeg.style.flexGrow = maxV>0?(mV/maxV).toFixed(4):'0';
+      topLbl.textContent  = money(tot);
+      bLbl.textContent    = tot>0&&bV/tot>0.18?money(bV):'';
+      mLbl.textContent    = tot>0&&mV/tot>0.18?money(mV):'';
+    }
+    setBar($('seg_y1_build'),$('seg_y1_maint'),$('lbl_y1'),$('slbl_y1_build'),$('slbl_y1_maint'),buildCost,yr1Maint);
+    setBar($('seg_y2_new'),$('seg_y2_maint'),$('lbl_y2'),$('slbl_y2_new'),$('slbl_y2_maint'),yr2Builds,yr2Maint);
+    setBar($('seg_y3_new'),$('seg_y3_maint'),$('lbl_y3'),$('slbl_y3_new'),$('slbl_y3_maint'),yr3Builds,yr3Maint);
+
+    // breakdown
+    var rows=[
+      {head:'Year 1'},
+      {name:'Initial build cost',  formula:tools+' tools \xd7 '+buildHrs+' hrs \xd7 '+redundancy.toFixed(1)+'\xd7 redundancy \xd7 $'+Math.round(rate)+'/hr', val:buildCost, cls:'orange'},
+      {name:'Year 1 maintenance',  formula:tools+' \xd7 '+freq+'/mo \xd7 12 \xd7 '+updHrs+' hrs \xd7 $'+Math.round(rate), val:yr1Maint, cls:'orange'},
+      {name:'Year 1 total',        formula:'', val:yr1Total, cls:'black', sub:true},
+      {head:'Year 2'},
+      {name:'Maintenance, '+tools+' tools', formula:tools+' \xd7 $'+Math.round(maintPerTool)+'/tool/yr', val:yr2Maint, cls:'blue'},
+      {name:'New builds ('+newPerYr+'/yr)', formula:newPerYr+' \xd7 '+buildHrs+' hrs \xd7 '+redundancy.toFixed(1)+'\xd7 \xd7 $'+Math.round(rate), val:yr2Builds, cls:'blue'},
+      {name:'Year 2 total',        formula:'', val:yr2Total, cls:'black', sub:true},
+      {head:'Year 3'},
+      {name:'Maintenance, '+yr3Tools+' tools', formula:yr3Tools+' \xd7 $'+Math.round(maintPerTool)+'/tool/yr', val:yr3Maint, cls:'blue'},
+      {name:'New builds ('+newPerYr+'/yr)', formula:newPerYr+' \xd7 '+buildHrs+' hrs \xd7 '+redundancy.toFixed(1)+'\xd7 \xd7 $'+Math.round(rate), val:yr3Builds, cls:'blue'},
+      {name:'Year 3 total',        formula:'', val:yr3Total, cls:'black', sub:true},
+      {head:'3-Year cumulative'},
+      {name:'Total ad hoc capacity cost', formula:'Year 1 + Year 2 + Year 3', val:cumulative, cls:'orange', sub:true}
+    ];
+    var html='';
+    rows.forEach(function(r){
+      if(r.head!==undefined){
+        html+='<div class="brow sec-head"><div class="b-left"><div class="b-name">'+r.head+'</div></div></div>';
+      } else {
+        html+='<div class="brow'+(r.sub?' subtotal':'')+'"><div class="b-left"><div class="b-name">'+r.name+'</div>'+(r.formula?'<div class="b-formula">'+r.formula+'</div>':'')+'</div><div class="b-val'+(r.cls?' '+r.cls:'')+'">'+money(r.val)+'</div></div>';
+      }
+    });
+    $('breakdown').innerHTML=html;
+    $('scale_note').textContent='Each additional tool added to the portfolio brings $'+Math.round(maintPerTool).toLocaleString()+' / yr in ongoing maintenance.';
+  }
+
+  recalc();
+})();
+</script>
+</body>
+</html>
