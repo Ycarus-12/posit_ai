@@ -1,4 +1,5 @@
 from shiny import App, ui
+from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Static JS - all JavaScript in one place, injected at render time
@@ -1361,4 +1362,4 @@ def server(input, output, session):
     pass
 
 
-app = App(app_ui, server)
+app = App(app_ui, server, static_assets=Path(__file__).parent / "www")
