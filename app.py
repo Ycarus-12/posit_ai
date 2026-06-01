@@ -1,4 +1,3 @@
-import os
 from shiny import App, ui
 
 # ---------------------------------------------------------------------------
@@ -685,7 +684,7 @@ def _section_opening():
         ui.div({"class": "section-eyebrow"}, "The Risk"),
         ui.div(
             {"class": "opening-hero"},
-            ui.div({"class": "opening-hero-eyebrow"}, "The cold open"),
+            ui.div({"class": "opening-hero-eyebrow"}, "The maintenance problem"),
             ui.div(
                 {"class": "opening-statement"},
                 ui.HTML(
@@ -724,8 +723,8 @@ def _section_opening():
             {"class": "callout"},
             ui.p(
                 ui.HTML(
-                    "<strong>The question to put in the room:</strong> \"What is your plan for maintaining "
-                    "these tools a year from now?\" If the answer is 'whoever built it' or 'we'll figure it out,' "
+                    "\"What is your plan for maintaining these tools a year from now?\" "
+                    "If the answer is 'whoever built it' or 'we'll figure it out,' "
                     "that is not a plan. It is a liability that compounds quietly until it becomes a crisis."
                 )
             ),
@@ -744,10 +743,10 @@ def _section_opening():
             {"class": "callout blue"},
             ui.p(
                 ui.HTML(
-                    "<strong>Close the escape hatch:</strong> A skeptical leader might answer 'or we just don't "
-                    "build all those agents.' That option is off the table. The CEO and leadership have made AI "
-                    "a now priority - not-building is not the choice. The only real question is whether "
-                    "maintenance is designed in from day one, or discovered after the first tool fails silently."
+                    "A skeptical leader might answer 'or we just don't build all those agents.' "
+                    "But that choice is already off the table - AI is an explicit priority, not an experiment. "
+                    "The only real question is whether maintenance is designed in from day one, "
+                    "or discovered after the first tool fails silently."
                 )
             ),
         ),
@@ -760,15 +759,15 @@ def _section_why_now():
         ui.div({"class": "section-eyebrow"}, "Why Now"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("Attaching to <strong>existing urgency,</strong> not creating it."),
+            ui.HTML("The window is <strong>open now.</strong> It will not stay that way."),
         ),
         ui.p(
             {"class": "body-copy"},
             ui.HTML(
-                "The CEO and leadership have explicitly communicated that AI is a now priority. "
-                "This is explicit direction, not ambient enthusiasm. That makes this an easier pitch: "
-                "the question is not whether AI matters. The question is whether doing it with structure "
-                "beats doing it ad hoc."
+                "AI is no longer a question of whether - it is a question of how. "
+                "That shift from curiosity to commitment is happening across every team right now. "
+                "The organizations that win are not the ones that move first. "
+                "They are the ones that move with structure while everyone else is still moving fast."
             ),
         ),
         ui.div(
@@ -776,7 +775,7 @@ def _section_why_now():
             ui.div(
                 {"class": "stat-cell"},
                 ui.div({"class": "stat-num"}, "12-18"),
-                ui.div({"class": "stat-label"}, "months to build real operational AI muscle - not tools, systems"),
+                ui.div({"class": "stat-label"}, "months to build real operational AI muscle - not tools, but systems"),
             ),
             ui.div(
                 {"class": "stat-cell"},
@@ -786,18 +785,19 @@ def _section_why_now():
             ui.div(
                 {"class": "stat-cell"},
                 ui.div({"class": "stat-num"}, "2x"),
-                ui.div({"class": "stat-label"}, "every internal build on Posit's stack is also a reference implementation for customers"),
+                ui.div({"class": "stat-label"}, "potential return on every internal build that runs on Posit's own stack"),
             ),
         ),
         ui.p(
             {"class": "body-copy"},
             ui.HTML(
-                "Anyone can use AI. The companies that win are the ones that build the "
-                "<em>operational muscle</em> - the framework, the systems, the evaluation data - "
-                "to deploy it with discipline. That muscle is not built in a sprint. "
-                "It takes 12-18 months of production experience, real failures, and institutional "
-                "learning. A company that starts in 2027 is not one year behind. It is competing "
-                "against an organization that already made the expensive mistakes and learned from them."
+                "Anyone can use AI. The organizations that pull ahead are the ones that build the "
+                "<em>operational muscle</em> - the framework, the <strong>systems</strong>, the evaluation data - "
+                "to deploy it with discipline. That muscle is not built in a sprint, and it cannot be built "
+                "by people working on it around their day jobs. It takes deliberate investment: "
+                "dedicated ownership, production experience, real failures absorbed and learned from. "
+                "A company that starts in 2027 is not one year behind. It is competing against "
+                "an organization that already made the expensive mistakes and hardened its approach."
             ),
         ),
         ui.div(
@@ -805,11 +805,12 @@ def _section_why_now():
             ui.p(
                 ui.HTML(
                     "<strong>The Posit multiplier:</strong> Posit's customers are data science teams. "
-                    "When Posit builds internal AI tools on its own stack - ellmer, ragnar, shinychat - "
-                    "those builds do not stay internal. They become reference implementations, "
-                    "dogfooding feedback loops, and devrel content. The work pays for itself two or "
-                    "three times over. That compounding return is unique to Posit. It does not exist "
-                    "the same way anywhere else."
+                    "When internal AI tools are built on Posit's own stack - ellmer, ragnar, shinychat - "
+                    "there is potential for those builds to travel beyond the internal team. "
+                    "Reference implementations, dogfooding feedback loops, devrel content. "
+                    "The work could pay for itself two or three times over. "
+                    "That compounding return is a possibility unique to Posit - but only if the builds "
+                    "are done deliberately, on the right stack, with someone accountable for making that happen."
                 )
             ),
         ),
@@ -827,12 +828,13 @@ def _section_function():
         ui.p(
             {"class": "body-copy"},
             ui.HTML(
-                "The function takes 'we wish we had an AI tool that does X' from any operational "
-                "team - PS, Sales, CS, Support - and ships it, without that team stopping what "
-                "they are already doing. <strong>The gap is not competence. It is bandwidth.</strong> "
+                "What Posit's operational teams need is a dedicated internal capability that takes "
+                "'we wish we had an AI tool that does X' and turns it into something that actually works - "
+                "without PS, Sales, CS, or Support stopping what they are already doing to build it. "
+                "<strong>The gap is not competence. It is bandwidth.</strong> "
                 "Posit's senior engineers are excellent at AI. Their expertise is committed to the "
-                "product roadmap. This function protects that focus by owning the internal builds "
-                "that will never make it to the product queue."
+                "product roadmap - as it should be. A dedicated internal AI function protects that focus "
+                "by owning the operational builds that will never make the product queue."
             ),
         ),
         ui.div(
@@ -854,9 +856,10 @@ def _section_function():
                 ui.div({"class": "pillar-title"}, "Build and Maintain"),
                 ui.div(
                     {"class": "pillar-body"},
-                    "Ship and maintain agents and shared AI infrastructure on Posit's stack wherever "
-                    "the use case allows. Deployment is its own project, not a button press. "
-                    "Maintenance is designed in from day one, not discovered after the first failure.",
+                    "Posit does not send customers a few emails and hope they are successful. "
+                    "Internal tools deserve the same standard. That means proper implementation: "
+                    "requirements gathered, systems built to spec, deployed correctly, and maintained "
+                    "as the processes around them change. On Posit's stack wherever the use case fits.",
                 ),
             ),
             ui.div(
@@ -865,9 +868,10 @@ def _section_function():
                 ui.div({"class": "pillar-title"}, "Governance"),
                 ui.div(
                     {"class": "pillar-body"},
-                    "Responsible-use, data-handling, and security standards across every build. "
-                    "Zero-data-retention routing, PII sanitization, and model evaluation standards "
-                    "that map onto Posit's reproducibility and verification pitch to regulated industries.",
+                    "Shared standards for how AI is used internally: which models for which tasks, "
+                    "how data is handled, how outputs are validated, and how the portfolio is evaluated "
+                    "as models evolve. The same rigor Posit applies to reproducibility in its products, "
+                    "applied to the AI systems running inside its own walls.",
                 ),
             ),
         ),
@@ -876,7 +880,7 @@ def _section_function():
             ui.p(
                 ui.HTML(
                     "<strong>Operating model - small and scaling:</strong> Two people to start. "
-                    "A delivery lead (me) and one ecosystem-fluent builder with real depth in "
+                    "A founding director and one ecosystem-fluent builder with real depth in "
                     "ellmer, chatlas, ragnar, and shinychat. Land-and-expand: low burn, fast proof, "
                     "grow against a proven pipeline rather than a slide. Player-coach from day one - "
                     "hands-on in the build, not pure management."
@@ -887,13 +891,11 @@ def _section_function():
             {"class": "callout"},
             ui.p(
                 ui.HTML(
-                    "<strong>The partner model:</strong> I do not know Posit's processes better than "
-                    "Posit does, and I will not pretend to. What I do: listen, translate what a team "
-                    "needs into something that works, and deliver it. The same thing I have done for "
-                    "customers for over a decade, now pointed inward. That reframes the function from "
-                    "'AI expert who tells you what to build' to 'delivery partner who builds what you "
-                    "actually need.' It is harder to replicate than an engineer's instinct to design "
-                    "the solution before understanding the problem."
+                    "The delivery model mirrors what works externally: understand what the team actually "
+                    "needs before writing a line of code, build to that spec, and hand off something that "
+                    "runs. That discipline - listening before building, requirements before solutions - "
+                    "is what separates an internal tool that gets used from one that gets abandoned. "
+                    "It is also harder to replicate from inside an engineering org than it looks."
                 )
             ),
         ),
@@ -1300,6 +1302,7 @@ def _section_discovery():
 def _calc_capacity_embed():
     # Read the full HTML from project files and embed as iframe-equivalent
     # We'll embed the calculator JS/HTML inline
+    import os
     calc_html = open(os.path.join(os.path.dirname(__file__), "ai-value-calculator.html")).read()
     # Strip the DOCTYPE/html/head/body wrappers, keep the page div and script
     # Extract just the inner content we need
@@ -1338,6 +1341,7 @@ def _calc_capacity_embed():
 
 
 def _calc_roi_embed():
+    import os
     calc_html = open(os.path.join(os.path.dirname(__file__), "AI_Governance_ROI.html")).read()
     import re
     style_match = re.search(r'<style>(.*?)</style>', calc_html, re.DOTALL)
