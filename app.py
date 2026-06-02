@@ -8,12 +8,17 @@ _STATIC_JS = """
 (function() {
   // ---- NAV SCROLL --------------------------------------------------------
   var navLinks = document.querySelectorAll('.nav-pill');
+  var shell = document.querySelector('.pitch-shell');
+
   navLinks.forEach(function(link) {
     link.addEventListener('click', function(e) {
       e.preventDefault();
-      var target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // In full mode, handle scroll here; in summary mode, goFull handles it
+      if (shell.classList.contains('mode-full')) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
       navLinks.forEach(function(l) { l.classList.remove('active'); });
       this.classList.add('active');
@@ -62,7 +67,8 @@ _STATIC_JS = """
       }
     });
   });
-  // Auto-resize calculator iframes
+
+  // ---- AUTO-RESIZE CALCULATOR IFRAMES ------------------------------------
   window.addEventListener('message', function(e) {
     if (e.data && e.data.type === 'iframeResize') {
       var iframes = document.querySelectorAll('iframe');
@@ -73,6 +79,45 @@ _STATIC_JS = """
       });
     }
   });
+
+  // ---- MODE TOGGLE -------------------------------------------------------
+  var expandBtn = document.getElementById('expand-btn');
+  var collapseBtn = document.getElementById('collapse-btn');
+
+  function goFull(scrollTargetId) {
+    shell.classList.remove('mode-summary');
+    shell.classList.add('mode-full');
+    setTimeout(function() {
+      var t = scrollTargetId ? document.querySelector(scrollTargetId) : document.getElementById('full-view');
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  function goSummary() {
+    shell.classList.remove('mode-full');
+    shell.classList.add('mode-summary');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  if (expandBtn) expandBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    goFull('#opening');
+  });
+
+  if (collapseBtn) collapseBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    goSummary();
+  });
+
+  // Nav auto-expand: if a nav link fires while in summary mode, let goFull handle scroll
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      if (shell.classList.contains('mode-summary')) {
+        goFull(this.getAttribute('href'));
+      }
+    });
+  });
+
 })();
 """
 
@@ -559,6 +604,137 @@ body {
   margin-top: 1.5rem;
 }
 
+/* ---- MODE TOGGLE ---- */
+.mode-summary .pitch-nav { display: none; }
+.mode-summary #full-view { display: none; }
+.mode-summary .pitch-main { margin-left: 0; max-width: 760px; margin-left: auto; margin-right: auto; }
+
+.mode-full #tldr { display: none; }
+
+/* ---- TL;DR VIEW ---- */
+.tldr-view {
+  padding: 3.5rem 3rem 3rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.tldr-headline {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 300;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.75rem;
+  color: var(--black);
+}
+.tldr-headline strong { font-weight: 600; color: var(--blue); }
+.tldr-body {
+  font-size: 0.95rem;
+  color: var(--gray);
+  line-height: 1.8;
+  margin-bottom: 1.1rem;
+  max-width: 68ch;
+}
+.tldr-body strong { color: var(--black); font-weight: 600; }
+.tldr-ask {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin: 1.5rem 0 1.75rem;
+  font-style: italic;
+}
+.tldr-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* ---- SCALING LADDER ---- */
+.ladder-wrap {
+  margin: 2rem 0 2.25rem;
+}
+.ladder-label {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray-lt);
+  margin-bottom: 1rem;
+}
+.ladder {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+.ladder-rung {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.ladder-bar {
+  width: 100%;
+  border-radius: 5px 5px 0 0;
+  margin-bottom: 0.6rem;
+}
+.ladder-rung:nth-child(1) .ladder-bar { height: 48px; background: var(--blue); opacity: 0.5; }
+.ladder-rung:nth-child(2) .ladder-bar { height: 96px; background: var(--blue); opacity: 0.75; }
+.ladder-rung:nth-child(3) .ladder-bar { height: 160px; background: var(--orange); }
+.ladder-num {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+.ladder-rung:nth-child(1) .ladder-num,
+.ladder-rung:nth-child(2) .ladder-num { color: var(--blue); }
+.ladder-rung:nth-child(3) .ladder-num { color: var(--orange-dk); }
+.ladder-desc {
+  font-size: 0.75rem;
+  color: var(--gray);
+  line-height: 1.4;
+}
+.ladder-caption {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 10px;
+  color: var(--gray-lt);
+  margin-top: 0.85rem;
+  font-style: italic;
+}
+
+/* ---- EXPAND / COLLAPSE BUTTONS ---- */
+.expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.85rem 1.5rem;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+.expand-btn:hover { background: var(--blue-dk); }
+
+.collapse-bar {
+  padding: 1rem 3rem 0;
+}
+.collapse-link {
+  font-family: 'Source Code Pro', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-lt);
+  text-decoration: none;
+}
+.collapse-link:hover { color: var(--blue); }
+
 /* ---- RESPONSIVE ---- */
 @media (max-width: 900px) {
   .pitch-nav { width: 180px; }
@@ -572,12 +748,100 @@ body {
   .pillars-grid { grid-template-columns: 1fr; }
   .credential-pair { grid-template-columns: 1fr; }
   .ask-items { grid-template-columns: 1fr; }
+  .tldr-view { padding: 2.5rem 1.25rem 2rem; }
 }
 """
 
 # ---------------------------------------------------------------------------
 # HTML content builders
 # ---------------------------------------------------------------------------
+
+def _section_tldr():
+    return ui.div(
+        {"class": "tldr-view", "id": "tldr"},
+        ui.h1(
+            {"class": "tldr-headline"},
+            ui.HTML(
+                "You will own an internal AI function eventually. "
+                "<strong>The only question is when.</strong>"
+            ),
+        ),
+        ui.p(
+            {"class": "tldr-body"},
+            ui.HTML(
+                "AI tooling across your operational teams is already being built. The risk isn't that it fails - "
+                "it's that it works at first, then quietly drifts. Every agent has to stay in sync with a world "
+                "that keeps moving: processes change, products update, new information lands, the tools it relies "
+                "on shift. Skip those updates and the agent keeps answering on six-month-old information until "
+                "someone acts on a wrong answer - a customer misled, or one of your own teams making a call on "
+                "facts that changed months ago. Nothing alerts you when it happens."
+            ),
+        ),
+        ui.p(
+            {"class": "tldr-body"},
+            ui.HTML(
+                "You're scaling the company, and the AI tooling scales with it. Scaling it is also what turns "
+                "a manageable task into a liability no one is holding. For a company your size - around 200 people, "
+                "with operational teams across PS, Sales, CS, and Support - a realistic internal portfolio runs "
+                "15-20 agents. At 2-3 updates each, that's 30-60 maintenance events a month. Today that work "
+                "is no one's actual job."
+            ),
+        ),
+        ui.div(
+            {"class": "ladder-wrap"},
+            ui.div({"class": "ladder-label"}, "As the company scales \u2192"),
+            ui.div(
+                {"class": "ladder"},
+                ui.div(
+                    {"class": "ladder-rung"},
+                    ui.div({"class": "ladder-bar"}),
+                    ui.div({"class": "ladder-num"}, "2-3"),
+                    ui.div({"class": "ladder-desc"}, "updates / month - one agent (what I run today)"),
+                ),
+                ui.div(
+                    {"class": "ladder-rung"},
+                    ui.div({"class": "ladder-bar"}),
+                    ui.div({"class": "ladder-num"}, "10-15"),
+                    ui.div({"class": "ladder-desc"}, "updates / month - one business unit's set of agents"),
+                ),
+                ui.div(
+                    {"class": "ladder-rung"},
+                    ui.div({"class": "ladder-bar"}),
+                    ui.div({"class": "ladder-num"}, "30-60"),
+                    ui.div({"class": "ladder-desc"}, "updates / month - company-wide, ~200 people"),
+                ),
+            ),
+            ui.div({"class": "ladder-caption"}, "The burden grows with every team you add. Today, none of it is owned."),
+        ),
+        ui.p(
+            {"class": "tldr-body"},
+            ui.HTML(
+                "This is a question of ownership, not skill. Building and maintaining these tools isn't the "
+                "product team's job - they're rightly focused on the roadmap - and it isn't the operational "
+                "teams' job either, with their hands full of the customers, deals, and implementations they own. "
+                "It belongs to neither. What's missing is a dedicated function whose job is exactly this: "
+                "requirements in, working systems out."
+            ),
+        ),
+        ui.p(
+            {"class": "tldr-body"},
+            ui.HTML(
+                "I've spent a decade making software land, and I build AI agents that ship and stay in "
+                "production. I already run a smaller version of this exact function for my own team - "
+                "maintenance included."
+            ),
+        ),
+        ui.hr({"class": "tldr-divider"}),
+        ui.p(
+            {"class": "tldr-ask"},
+            "The ask is one conversation to find out whether this is true for you.",
+        ),
+        ui.a(
+            {"class": "expand-btn", "id": "expand-btn", "href": "#"},
+            "Ok, you have my attention \u2192",
+        ),
+    )
+
 
 def _nav():
     return ui.div(
@@ -1299,18 +1563,29 @@ app_ui = ui.page_fluid(
         ),
     ),
     ui.div(
-        {"class": "pitch-shell"},
+        {"class": "pitch-shell mode-summary"},
         _nav(),
         ui.div(
             {"class": "pitch-main"},
-            _section_opening(),
-            _section_why_now(),
-            _section_discovery(),
-            _section_function(),
-            _section_backlog(),
-            _section_why_me(),
-            _calc_capacity_embed(),
-            _section_ask(),
+            _section_tldr(),
+            ui.div(
+                {"class": "full-view", "id": "full-view"},
+                ui.div(
+                    {"class": "collapse-bar"},
+                    ui.a(
+                        {"class": "collapse-link", "id": "collapse-btn", "href": "#"},
+                        "\u2191 Back to summary",
+                    ),
+                ),
+                _section_opening(),
+                _section_why_now(),
+                _section_discovery(),
+                _section_function(),
+                _section_backlog(),
+                _section_why_me(),
+                _calc_capacity_embed(),
+                _section_ask(),
+            ),
         ),
     ),
     ui.tags.script(ui.HTML(_build_js())),
