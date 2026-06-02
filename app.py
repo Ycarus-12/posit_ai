@@ -735,6 +735,32 @@ body {
 }
 .collapse-link:hover { color: var(--blue); }
 
+/* ---- BACKLOG (compressed) ---- */
+.backlog-label{font-family:'Source Code Pro',monospace;font-size:9.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray-lt);margin:1.75rem 0 0.85rem;}
+.highlight-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:0.75rem;}
+.highlight-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:0.5rem;}
+.highlight-name{font-size:0.95rem;font-weight:600;color:var(--black);}
+.highlight-team{font-size:0.78rem;color:var(--gray);}
+.highlight-desc{font-size:0.83rem;color:var(--gray);line-height:1.65;}
+.backlog-team-count{font-family:'Source Code Pro',monospace;font-size:0.78rem;color:var(--gray);}
+.backlog-agent{display:flex;gap:0.9rem;padding:0.7rem 1.25rem;border-top:1px solid var(--border);}
+.backlog-agent-name{font-size:0.83rem;font-weight:600;color:var(--black);min-width:215px;flex-shrink:0;}
+.backlog-agent-blurb{font-size:0.8rem;color:var(--gray);line-height:1.5;}
+.backlog-close{background:#fef3ee;border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:1.4rem 1.7rem;margin-top:1.5rem;}
+.backlog-close p{font-size:1.12rem;font-weight:300;line-height:1.55;color:var(--black);}
+.backlog-close strong{font-weight:600;color:var(--orange-dk);}
+
+/* ---- WHY ME : first 90 days ---- */
+.whyme-divider{border:none;border-top:1px solid var(--border);margin:2.25rem 0 1.75rem;}
+.whyme-subeye{font-family:'Source Code Pro',monospace;font-size:9.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--blue);margin-bottom:0.6rem;}
+.phase{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:0.75rem;}
+.phase-head{background:var(--blue-bg);padding:0.75rem 1.25rem;display:flex;align-items:baseline;gap:0.7rem;flex-wrap:wrap;}
+.phase-days{font-family:'Source Code Pro',monospace;font-size:0.95rem;font-weight:600;color:var(--blue-dk);white-space:nowrap;}
+.phase-theme{font-size:0.84rem;font-weight:600;color:var(--blue);}
+.deliv{padding:0.85rem 1.25rem;border-top:1px solid var(--border);}
+.deliv-name{font-size:0.85rem;font-weight:600;color:var(--black);margin-bottom:0.2rem;}
+.deliv-desc{font-size:0.8rem;color:var(--gray);line-height:1.55;}
+
 /* ---- RESPONSIVE ---- */
 @media (max-width: 900px) {
   .pitch-nav { width: 180px; }
@@ -749,6 +775,8 @@ body {
   .credential-pair { grid-template-columns: 1fr; }
   .ask-items { grid-template-columns: 1fr; }
   .tldr-view { padding: 2.5rem 1.25rem 2rem; }
+  .backlog-agent { flex-direction: column; gap: 0.2rem; }
+  .backlog-agent-name { min-width: 0; }
 }
 """
 
@@ -868,8 +896,8 @@ def _nav():
             ui.a({"class": "nav-pill", "href": "#backlog"}, "Build Backlog"),
             ui.div({"class": "nav-section-label"}, "The Fit"),
             ui.a({"class": "nav-pill", "href": "#why-me"}, "Why Me"),
-            ui.div({"class": "nav-section-label"}, "The Numbers"),
-            ui.a({"class": "nav-pill", "href": "#calc-capacity"}, "Capacity Cost"),
+            ui.div({"class": "nav-section-label"}, "The Stakes"),
+            ui.a({"class": "nav-pill", "href": "#stakes"}, "The Stakes"),
             ui.div({"class": "nav-section-label"}, "Close"),
             ui.a({"class": "nav-pill", "href": "#ask"}, "The Ask"),
         ),
@@ -1099,231 +1127,157 @@ def _section_function():
 
 
 def _section_backlog():
+    highlights = [
+        ("QBR Prep Agent", "Customer Success",
+         "Pulls usage data, support history, and account notes into a structured QBR brief. Low complexity and high visibility make it a natural early proof point: the kind of build that demonstrates the function's value quickly and earns room for the harder ones."),
+        ("Customer Self-Service Agent", "Professional Services",
+         "Answers the routine, repetitive how-to questions during implementation, drawing on project docs and Posit's product docs. This one is a substantial build, not a quick win - but it's high-leverage. It takes the repetitive load off the PS team so their time goes to the complex, high-judgment work that needs a human. The point isn't to replace anyone; it's to stop spending senior implementation talent answering the same question for the tenth time."),
+        ("Renewal Risk Signal Agent", "Customer Success",
+         "Aggregates engagement, support, and usage signals to score renewal risk. High value, high complexity, and exactly the kind of build that should never go straight to acting on its own. It starts read-only: it surfaces risk, a human decides. It earns its way toward more only as it proves out. That phasing is the difference between a useful signal and a liability."),
+    ]
     teams = [
-        {
-            "name": "Professional Services",
-            "badge": "validated",
-            "items": [
-                {
-                    "name": "PM Agent",
-                    "desc": "Automates status updates, flags at-risk milestones, surfaces blockers for PM review. Keeps the PM's head up and reduces reporting overhead.",
-                    "tags": [],
-                },
-                {
-                    "name": "Customer Self-Service Agent",
-                    "desc": "Answers common how-to questions during implementation using project documentation and Posit product docs. Reduces interruptions to the PS team.",
-                    "tags": [("QUICK WIN", "tag-quick")],
-                },
-                {
-                    "name": "PS-to-CS Handoff Agent",
-                    "desc": "Drafts the structured handoff document from implementation data at project close. Owned by PS, consumed by CS.",
-                    "tags": [("SHARED", "tag-shared")],
-                },
-                {
-                    "name": "SOW Agent",
-                    "desc": "Drafts statement of work sections from scoping call notes and historical SOW patterns. One build, scoped narrowly.",
-                    "tags": [],
-                },
-            ],
-        },
-        {
-            "name": "Customer Success",
-            "badge": "validated",
-            "items": [
-                {
-                    "name": "PS-to-CS Handoff Agent",
-                    "desc": "The CS side of the shared handoff build. CS owns consumption and follow-up workflow; PS owns creation.",
-                    "tags": [("SHARED", "tag-shared")],
-                },
-                {
-                    "name": "QBR Prep Agent",
-                    "desc": "Pulls usage data, support history, and account notes into a structured QBR brief. Quick win: low complexity, high visibility, strong first proof point for the function.",
-                    "tags": [("QUICK WIN", "tag-quick")],
-                },
-                {
-                    "name": "Onboarding Gap Detector",
-                    "desc": "Flags customers who are behind on adoption benchmarks at defined intervals. Surfaces them for CSM review before they become churn risk.",
-                    "tags": [],
-                },
-                {
-                    "name": "Renewal Risk Signal Agent",
-                    "desc": "Aggregates engagement, support, and usage signals to score renewal risk. High-value, high-complexity. Starts read-only; earns action through Crawl/Walk/Run phases.",
-                    "tags": [("CRAWL-WALK-RUN", "tag-caution")],
-                },
-            ],
-        },
-        {
-            "name": "Sales",
-            "badge": "hypothesis",
-            "items": [
-                {
-                    "name": "Pre-Call Research Agent",
-                    "desc": "Assembles account context, recent news, and product usage history into a pre-call brief. Reduces prep time; increases rep confidence.",
-                    "tags": [],
-                },
-                {
-                    "name": "RFP / Technical Questionnaire Agent",
-                    "desc": "Drafts responses to security, compliance, and technical RFP questions from a maintained knowledge base. High-volume, repetitive work with clear ROI.",
-                    "tags": [],
-                },
-                {
-                    "name": "Competitive Intel Agent",
-                    "desc": "Monitors competitive signals and surfaces relevant positioning notes for reps. Sensitive territory - starts read-only, earns its way carefully.",
-                    "tags": [("CRAWL-WALK-RUN", "tag-caution")],
-                },
-            ],
-        },
-        {
-            "name": "Support",
-            "badge": "hypothesis",
-            "items": [
-                {
-                    "name": "Ticket Pattern Analyzer",
-                    "desc": "Surfaces recurring issue clusters across the ticket queue. Identifies documentation gaps and systemic bugs that no single ticket reveals.",
-                    "tags": [],
-                },
-                {
-                    "name": "Known-Issue Triage Agent",
-                    "desc": "Matches incoming tickets against a maintained known-issue database. Routes to the right resource faster; reduces duplicate investigation.",
-                    "tags": [],
-                },
-                {
-                    "name": "Documentation Gap Detector",
-                    "desc": "Identifies questions the docs do not answer well by analyzing ticket patterns and failed self-service attempts.",
-                    "tags": [],
-                },
-                {
-                    "name": "Escalation Signal Agent",
-                    "desc": "Flags tickets with escalation indicators before they escalate - sentiment, account tier, recurrence, wait time. Gives support leads time to intervene.",
-                    "tags": [("CRAWL-WALK-RUN", "tag-caution")],
-                },
-            ],
-        },
+        ("Professional Services", "4 builds", [
+            ("PM Agent", "Automates status updates, flags at-risk milestones, and surfaces blockers for PM review."),
+            ("Customer Self-Service Agent", "Answers routine how-to questions during implementation from project and product docs."),
+            ("PS-to-CS Handoff Agent", "Drafts the structured handoff document from implementation data at project close."),
+            ("SOW Agent", "Drafts statement-of-work sections from scoping notes and historical SOW patterns."),
+        ]),
+        ("Customer Success", "4 builds", [
+            ("PS-to-CS Handoff Agent", "The CS side of the shared handoff build: consumption and follow-up workflow."),
+            ("QBR Prep Agent", "Compiles usage, support history, and account notes into a structured QBR brief."),
+            ("Onboarding Gap Detector", "Flags customers behind on adoption benchmarks for CSM review before they churn."),
+            ("Renewal Risk Signal Agent", "Scores renewal risk from engagement, support, and usage signals. Phased, read-only first."),
+        ]),
+        ("Sales", "3 builds", [
+            ("Pre-Call Research Agent", "Assembles account context, recent news, and usage history into a pre-call brief."),
+            ("RFP / Technical Questionnaire Agent", "Drafts responses to security, compliance, and technical RFP questions from a knowledge base."),
+            ("Competitive Intel Agent", "Surfaces competitive positioning notes for reps. Phased, read-only first."),
+        ]),
+        ("Support", "4 builds", [
+            ("Ticket Pattern Analyzer", "Surfaces recurring issue clusters across the ticket queue that no single ticket reveals."),
+            ("Known-Issue Triage Agent", "Matches incoming tickets against a maintained known-issue database to route faster."),
+            ("Documentation Gap Detector", "Identifies questions the docs answer poorly from ticket and failed-search patterns."),
+            ("Escalation Signal Agent", "Flags tickets likely to escalate before they do. Phased, read-only first."),
+        ]),
+    ]
+
+    highlight_els = [
+        ui.div(
+            {"class": "highlight-card"},
+            ui.div(
+                {"class": "highlight-head"},
+                ui.span({"class": "highlight-name"}, name),
+                ui.span({"class": "highlight-team"}, team),
+            ),
+            ui.div({"class": "highlight-desc"}, desc),
+        )
+        for name, team, desc in highlights
     ]
 
     team_els = []
-    for team in teams:
-        badge_cls = "backlog-badge" if team["badge"] == "validated" else "backlog-badge hyp"
-        badge_text = "VALIDATED" if team["badge"] == "validated" else "HYPOTHESIS"
-
-        item_els = []
-        for idx, item in enumerate(team["items"]):
-            tag_els = [ui.span({"class": f"tag {tc}"}, tl) for tl, tc in item["tags"]]
-            item_els.append(
-                ui.div(
-                    {"class": "backlog-item"},
-                    ui.div({"class": "backlog-item-icon"}, f"{idx+1:02d}"),
-                    ui.div(
-                        {"class": "backlog-item-body"},
-                        ui.div({"class": "backlog-item-name"}, item["name"]),
-                        ui.div({"class": "backlog-item-desc"}, item["desc"]),
-                        ui.div({"class": "backlog-item-tags"}, *tag_els) if tag_els else ui.span(),
-                    ),
-                )
+    for tname, count, agents in teams:
+        agent_els = [
+            ui.div(
+                {"class": "backlog-agent"},
+                ui.span({"class": "backlog-agent-name"}, an),
+                ui.span({"class": "backlog-agent-blurb"}, ab),
             )
-
+            for an, ab in agents
+        ]
         team_els.append(
             ui.div(
                 {"class": "backlog-team"},
                 ui.div(
                     {"class": "backlog-team-header"},
-                    ui.div({"class": "backlog-team-name"}, team["name"]),
+                    ui.div({"class": "backlog-team-name"}, tname),
                     ui.div(
                         {"class": "backlog-team-meta"},
-                        ui.div({"class": badge_cls}, badge_text),
-                        ui.div({"class": "expand-icon"}, "-"),
+                        ui.div({"class": "backlog-team-count"}, count),
+                        ui.div({"class": "expand-icon"}, "+"),
                     ),
                 ),
-                ui.div({"class": "backlog-team-body"}, *item_els),
+                ui.div({"class": "backlog-team-body", "style": "display:none;"}, *agent_els),
             )
         )
 
     return ui.div(
         {"class": "pitch-section", "id": "backlog"},
-        ui.div({"class": "section-eyebrow"}, "Possibilities"),
+        ui.div({"class": "section-eyebrow"}, "The Demand"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("A pipeline, <strong>not a wishlist.</strong>"),
+            ui.HTML("Not a wishlist. <strong>A backlog.</strong>"),
         ),
         ui.p(
             {"class": "body-copy"},
-            ui.HTML(
-                "These are starting points, not a definitive list. The value AI could unlock across "
-                "PS, Sales, CS, and Support is real and significant - the tools below give a sense "
-                "of what becomes possible. But as you read them, hold both thoughts at once: "
-                "<strong>how much could these accelerate the work,</strong> and "
-                "<strong>who is going to build and maintain them?</strong> "
-                "That second question is the one this role exists to answer."
-            ),
+            "The demand is already concrete. Across PS, Sales, CS, and Support there are at least fifteen internal builds worth doing now. Some I've already built; others are clear needs that the function would plan and spec alongside the teams that want them. What matters here is the shape of that demand, and how the function would approach it.",
         ),
+        ui.div({"class": "backlog-label"}, "Highlights"),
+        *highlight_els,
+        ui.div({"class": "backlog-label"}, "The full backlog, by team"),
         *team_els,
         ui.div(
             {"class": "callout blue"},
             ui.p(
                 ui.HTML(
-                    "<strong>Every build starts read-only. We never arrive at a state where AI decides and acts without a human in the loop.</strong> "
-                    "Phase 1 (Crawl): agent reads and reports, human decides and acts. "
-                    "Phase 2 (Walk): agent flags and scores, human owns all actions. "
-                    "Phase 3 (Run): agent drafts and routes within a narrow scope, human approves before anything executes. "
-                    "The gate between phases is performance, not a calendar. "
-                    "For the highest-risk builds - Renewal Risk Signal, Competitive Intel, Escalation Signal - "
-                    "the phases are mapped explicitly before any work starts."
+                    "<strong>The phasing principle:</strong> Every build starts read-only. "
+                    "We never reach a point where AI acts without a human in the loop. "
+                    "AI delegation is earned, narrow, and reversible."
                 )
             ),
         ),
         ui.div(
-            {"class": "footnote-strip"},
-            ui.HTML(
-                "<b>Tag key:</b> "
-                "<span style='color:#4a6b28;font-weight:600;'>QUICK WIN</span> - ships first as proof; "
-                "<span style='color:#447099;font-weight:600;'>SHARED</span> - cross-team build with two owners; "
-                "<span style='color:#c94e1f;font-weight:600;'>CRAWL-WALK-RUN</span> - higher-complexity build, phased approach required."
+            {"class": "backlog-close"},
+            ui.p(
+                ui.HTML(
+                    "As you read these, keep one thing in mind: the value is only half the story. "
+                    "Every one of these still has to be <strong>built and maintained by someone</strong>. "
+                    "That is the question <strong>this role exists to answer</strong>."
+                )
             ),
         ),
     )
-
-
 def _section_why_me():
     return ui.div(
         {"class": "pitch-section", "id": "why-me"},
         ui.div({"class": "section-eyebrow"}, "Why Me"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("Two credentials. <strong>Both load-bearing.</strong>"),
+            ui.HTML("A builder who ships, <strong>and knows what's worth building.</strong>"),
         ),
         ui.p(
             {"class": "body-copy"},
-            "This case rests on two separate things.",
+            "Two things sit behind that, and the role needs both.",
         ),
         ui.div(
             {"class": "credential-pair"},
             ui.div(
                 {"class": "credential-card"},
-                ui.div({"class": "credential-num"}, "Credential 01 - The Delivery Track Record"),
+                ui.div({"class": "credential-num"}, "A track record of delivery"),
                 ui.div({"class": "credential-title"}, "A decade of making software land"),
                 ui.div(
                     {"class": "credential-body"},
                     ui.HTML(
                         "Implementation leadership, enterprise delivery, cross-functional alignment, PMP. "
-                        "I know the project management motions. I know how to work with stakeholders to get "
-                        "the actual solution they need - not just what they first ask for. I know how to "
+                        "I know the project management and delivery motions. I know how to work with stakeholders "
+                        "to get the actual solution they need, not just what they first ask for. I know how to "
                         "stay on target and on time, and how to enable the teams that will use what gets built.<br><br>"
-                        "<strong>This is 80% of this job.</strong> Building the agents is the other 20%. "
-                        "An engineer can write the code. The delivery skill is what makes the function work."
+                        "This is 80% of this job, and building the agents is the other 20%. A working agent nobody "
+                        "adopts is worthless. The delivery is what makes it land and stick."
                     ),
                 ),
             ),
             ui.div(
                 {"class": "credential-card"},
-                ui.div({"class": "credential-num"}, "Credential 02 - The Hands-On AI Record"),
+                ui.div({"class": "credential-num"}, "A record of hands-on AI success"),
                 ui.div({"class": "credential-title"}, "Working agents in production, not slides"),
                 ui.div(
                     {"class": "credential-body"},
                     ui.HTML(
                         "A suite of working agents built for a PS team: PM Agent, PS-to-Support Handoff, "
                         "PS-to-CS Handoff, How-To Agent. A Shiny for R prototype of a SaaS implementation "
-                        "assistant, deployed on Posit Cloud, built with the Anthropic API via httr2.<br><br>"
-                        "A few years of hands-on building with a structured, scalable framework."
+                        "assistant, deployed on Posit Cloud, built with the Anthropic API.<br><br>"
+                        "These aren't experiments. They run on a repeatable framework, which means each new build "
+                        "starts ahead of the last, and it's the same framework that keeps them maintained once they're live."
                     ),
                 ),
             ),
@@ -1332,13 +1286,11 @@ def _section_why_me():
             {"class": "callout blue"},
             ui.p(
                 ui.HTML(
-                    "<strong>The rare combination:</strong> Technical depth plus business judgment. "
-                    "The reason not to staff this from the engineering bench is not that engineers lack "
-                    "judgment - it is that they are correctly pointed at the product roadmap and measured "
-                    "on it. 'Should we build this internal tool at all' is not their job to ask. "
-                    "An internal hire also comes from the exact bench this role exists to protect, "
-                    "and would drift back to product work. An outside hire who has already built "
-                    "on Posit's own stack does not have that drift problem."
+                    "<strong>The rare combination:</strong> Plenty of people can build an agent. Fewer can also "
+                    "judge whether it's worth building, scope it against the business case, and then deliver it "
+                    "into a team's daily work. That combination - the build, the judgment, and the delivery - is "
+                    "what this function owner needs. Any one of them alone isn't enough. It also has to be someone's "
+                    "whole job, not a side project competing with a mandate they already carry."
                 )
             ),
         ),
@@ -1346,15 +1298,82 @@ def _section_why_me():
             {"class": "callout green"},
             ui.p(
                 ui.HTML(
-                    "<strong>Maintenance ownership as proof:</strong> I already run the function I am proposing. "
-                    "My internal process agent documents our team's processes and answers questions. "
-                    "Every time a process changes, I update it - 2-3 times a month, every month. "
-                    "That is not a hypothetical maintenance burden. That is the lifecycle work "
-                    "Posit's operational teams currently have no plan for, running live."
+                    "<strong>Proof, not theory:</strong> I built and run this function for my own team today, "
+                    "stood up from scratch. One example: a process agent that documents how the team works and "
+                    "answers the questions people would otherwise interrupt someone to ask. The point isn't just "
+                    "that it exists. I've built the framework that keeps it accurate - it gets updated 2-3 times a "
+                    "month as processes change, because maintenance is designed into how it runs, not left to memory. "
+                    "That lifecycle discipline, the exact thing operational teams have no plan for, is already running."
                 )
             ),
         ),
+        ui.hr({"class": "whyme-divider"}),
+        ui.div({"class": "whyme-subeye"}, "The first ninety days"),
+        ui.p(
+            {"class": "body-copy"},
+            "The fastest way to show how I work is to show what I'd build. Here are the tools, trainings, and outputs of the first ninety days. The earliest builds aren't for other teams; they're the function building its own machinery, so everything after them moves faster.",
+        ),
+        ui.div(
+            {"class": "phase"},
+            ui.div(
+                {"class": "phase-head"},
+                ui.span({"class": "phase-days"}, "First 30 days"),
+                ui.span({"class": "phase-theme"}, "Set up the machine"),
+            ),
+            ui.div(
+                {"class": "deliv"},
+                ui.div({"class": "deliv-name"}, "Onboarding agent"),
+                ui.div({"class": "deliv-desc"}, "My first build is for me, an agent trained on Posit's internal processes so I ramp in weeks, not months. But it's the first version of something bigger: a reusable onboarding agent any team can point at their own processes, so every new hire ramps faster, not just me. Institutional knowledge becomes a living tool, not a folder."),
+            ),
+            ui.div(
+                {"class": "deliv"},
+                ui.div({"class": "deliv-name"}, "Intake agent"),
+                ui.div({"class": "deliv-desc"}, "An agent that interviews any team requesting a build, prompting them through the right questions so nothing gets forgotten and the requirements are complete from the start. Teams populate the backlog on their own time rather than waiting on my calendar, the back-and-forth disappears, and I'm never the bottleneck. Every build begins from a clear, complete spec."),
+            ),
+            ui.div(
+                {"class": "deliv"},
+                ui.div({"class": "deliv-name"}, "Enablement triage"),
+                ui.div({"class": "deliv-desc"}, "Sit with PS, CS, Sales, and Support, map where the need is sharpest, and rank the teams. The order isn't a guess; it's what I find."),
+            ),
+        ),
+        ui.div(
+            {"class": "phase"},
+            ui.div(
+                {"class": "phase-head"},
+                ui.span({"class": "phase-days"}, "Days 30-60"),
+                ui.span({"class": "phase-theme"}, "Build the judgment in, start aligning teams"),
+            ),
+            ui.div(
+                {"class": "deliv"},
+                ui.div({"class": "deliv-name"}, "Use-case agent"),
+                ui.div({"class": "deliv-desc"}, "Helps assess whether AI is even the right tool for a request, or whether a process fix or simpler tool serves better. The 'should we build this' question, made systematic."),
+            ),
+            ui.div(
+                {"class": "deliv"},
+                ui.div({"class": "deliv-name"}, "ROI agent"),
+                ui.div({"class": "deliv-desc"}, "Paired with it: estimates the return on any proposed build, so prioritization runs on evidence, not enthusiasm."),
+            ),
+            ui.div(
+                {"class": "deliv"},
+                ui.div({"class": "deliv-name"}, "AI enablement course"),
+                ui.div({"class": "deliv-desc"}, "A short course I deliver to get teams aligned on how to think about AI, how to work with the function, and how to do more on their own. The goal is teams that can self-serve where they can, not teams that depend on me."),
+            ),
+        ),
+        ui.div(
+            {"class": "phase"},
+            ui.div(
+                {"class": "phase-head"},
+                ui.span({"class": "phase-days"}, "Days 60-90"),
+                ui.span({"class": "phase-theme"}, "Ship the value"),
+            ),
+            ui.div(
+                {"class": "deliv"},
+                ui.div({"class": "deliv-name"}, "The first high-ROI builds"),
+                ui.div({"class": "deliv-desc"}, "With intake, use-case, and ROI tooling in place, I pick the highest-return agents from the validated pipeline and ship, leading with a quick win. By day 90: three to five maintained builds live, early evaluation data proving they hold up, and an evidence-ranked pipeline of what's next."),
+            ),
+        ),
     )
+
 
 
 def _section_discovery():
@@ -1434,42 +1453,30 @@ def _section_discovery():
     )
 
 
-def _calc_capacity_embed():
+def _section_stakes():
     return ui.div(
-        {"class": "pitch-section", "id": "calc-capacity"},
-        ui.div({"class": "section-eyebrow"}, "The Numbers"),
+        {"class": "pitch-section", "id": "stakes"},
+        ui.div({"class": "section-eyebrow"}, "The Stakes"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("The <strong>hidden capacity cost</strong> of building AI tooling ad hoc."),
+            ui.HTML("AI creates the value. <strong>Ownership decides how much you keep.</strong>"),
         ),
         ui.p(
             {"class": "body-copy"},
-            "Adjust the inputs to match your team. Defaults are conservative and sourced. Your actual numbers are likely larger, not smaller.",
-        ),
-        ui.HTML(
-            '<iframe src="ai-value-calculator.html" '
-            'style="width:100%;border:none;height:2600px;display:block;" '
-            'scrolling="no"></iframe>'
-        ),
-    )
-
-
-def _calc_roi_embed():
-    return ui.div(
-        {"class": "pitch-section", "id": "calc-roi"},
-        ui.div({"class": "section-eyebrow"}, "Calculator 02"),
-        ui.h2(
-            {"class": "section-title"},
-            ui.HTML("The <strong>compounding savings</strong> from AI governance across three phases."),
+            "Start with the upside, because it's real and it's large. The obvious value is hours given back. The bigger value is what those hours unlock: a sales team moving faster on more deals, support resolving issues before they escalate, CS catching risk earlier. That value dwarfs the time saved, and it lands directly on the numbers the business runs on.",
         ),
         ui.p(
             {"class": "body-copy"},
-            "Each phase unlocks new optimization levers. The numbers below show what becomes possible, and when.",
+            "But value only counts if you keep it. Built ad hoc, it leaks. Tools drift and quietly stop delivering, and the work gets pulled from the very teams meant to benefit. You can stand up something impressive and watch most of its value bleed away inside a year, with no alarm going off. I won't put a dollar figure on that today, because any number I show rests on my assumptions, not yours. The real one gets built with your rates, your volumes, your pipeline, and it's large.",
         ),
-        ui.HTML(
-            '<iframe src="AI_Governance_ROI.html" '
-            'style="width:100%;border:none;height:800px;display:block;" '
-            'scrolling="no"></iframe>'
+        ui.div(
+            {"class": "callout blue"},
+            ui.p(
+                ui.HTML(
+                    "The upside isn't in question. How much of it survives the way the work gets owned is. "
+                    "That's the number worth building together, and the decision it points to is already clear."
+                )
+            ),
         ),
     )
 
@@ -1547,7 +1554,7 @@ app_ui = ui.page_fluid(
                 _section_function(),
                 _section_backlog(),
                 _section_why_me(),
-                _calc_capacity_embed(),
+                _section_stakes(),
                 _section_ask(),
             ),
         ),
