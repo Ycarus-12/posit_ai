@@ -819,16 +819,18 @@ def _section_tldr():
                 "This is a question of ownership, not skill. Building and maintaining these tools isn't the "
                 "product team's job - they're rightly focused on the roadmap - and it isn't the operational "
                 "teams' job either, with their hands full of the customers, deals, and implementations they own. "
-                "It belongs to neither. What's missing is a dedicated function whose job is exactly this: "
-                "requirements in, working systems out."
+                "It belongs to neither. What's missing is a dedicated function that partners with teams to weigh "
+                "whether AI is the right fit and worth the cost, then builds and maintains the tools that are. "
+                "Requirements in, working systems out."
             ),
         ),
         ui.p(
             {"class": "tldr-body"},
             ui.HTML(
                 "I've spent a decade making software land, and I build AI agents that ship and stay in "
-                "production. I already run a smaller version of this exact function for my own team - "
-                "maintenance included."
+                "production. The rarer skill is the business judgment to know whether AI is the right answer "
+                "at all - and what it's worth when it is. I already run a smaller version of this exact "
+                "function for my own team - maintenance included."
             ),
         ),
         ui.hr({"class": "tldr-divider"}),
@@ -891,8 +893,8 @@ def _section_opening():
             ui.div(
                 {"class": "opening-kicker"},
                 ui.HTML(
-                    "An unmaintained agent doesn't fail loudly. It keeps running. "
-                    "It keeps answering. It keeps producing outputs based on how things worked six months ago. "
+                    "An unmaintained agent doesn't fail loudly. It keeps running. It keeps answering. "
+                    "It keeps producing outputs based on how things worked six months ago. "
                     "By the time anyone notices, the damage is done."
                 ),
             ),
@@ -901,47 +903,45 @@ def _section_opening():
             {"class": "stat-strip"},
             ui.div(
                 {"class": "stat-cell"},
-                ui.div({"class": "stat-num"}, "2-3x"),
-                ui.div({"class": "stat-label"}, "updates per month to maintain one internal process agent"),
+                ui.div({"class": "stat-num"}, "2-3"),
+                ui.div({"class": "stat-label"}, "updates a month to keep one agent accurate (one I run today)"),
             ),
             ui.div(
                 {"class": "stat-cell"},
-                ui.div({"class": "stat-num orange"}, "20-30x"),
-                ui.div({"class": "stat-label"}, "updates per month across a portfolio of 10 agents"),
+                ui.div({"class": "stat-num orange"}, "30-60"),
+                ui.div({"class": "stat-label"}, "a month across a company your size, at full buildout"),
             ),
             ui.div(
                 {"class": "stat-cell"},
                 ui.div({"class": "stat-num"}, "0"),
-                ui.div({"class": "stat-label"}, "people currently assigned to own that work at most companies"),
+                ui.div({"class": "stat-label"}, "people assigned to own that work"),
             ),
         ),
         ui.div(
             {"class": "callout"},
             ui.p(
                 ui.HTML(
-                    "The plan for maintaining these tools a year from now matters more than the plan to build them. "
-                    "If the answer is 'whoever built it' or 'we will figure it out,' "
-                    "that is not a plan. It is a liability that compounds quietly until it becomes a crisis."
+                    "The plan for maintaining these tools a year from now matters just as much as the plan to build them. "
+                    "If the answer is 'whoever built it' or 'we'll figure it out,' that's not a plan. "
+                    "It's a liability that compounds quietly until it becomes a crisis."
                 )
             ),
         ),
         ui.p(
             {"class": "body-copy"},
             ui.HTML(
-                "Process changes. Tools get updated. Models release new versions that silently degrade "
-                "output in ways no alert catches. Every one of those events is a maintenance event - "
-                "a prompt that needs updating, a data connection that needs checking, an output that "
-                "needs validation. "
-                "<strong>Someone has to own that.</strong> Right now, nobody does."
+                "And maintenance is only the most visible version of the gap. "
+                "The same question - who actually owns this - hangs over cost, standards, model changes, "
+                "and whether AI is even the right investment for a given problem. "
+                "Real value on the table, and no single owner for any of it."
             ),
         ),
         ui.div(
             {"class": "callout blue"},
             ui.p(
                 ui.HTML(
-                    "The builds are coming. AI tooling across operational teams is not a question of if - "
-                    "the only question is whether maintenance is planned from the start or discovered "
-                    "after the first tool fails silently."
+                    "The builds are coming. AI tooling across operational teams isn't a question of if - "
+                    "the only question is whether it's owned from the start, or discovered after the first tool fails silently."
                 )
             ),
         ),
@@ -959,40 +959,41 @@ def _section_why_now():
         ui.p(
             {"class": "body-copy"},
             ui.HTML(
-                "AI is no longer a question of whether - it is a question of how. "
-                "That shift from curiosity to commitment is happening across every team right now. "
-                "The organizations that win are not the ones that move first. "
-                "They are the ones that move with structure while everyone else is still moving fast."
+                "AI is no longer a question of if - it's a question of how. "
+                "That shift from curiosity to commitment is happening across every organization and team right now. "
+                "The organizations that win aren't the ones that move first. "
+                "They're the ones that move with structure and intention while everyone else is still moving fast."
             ),
         ),
         ui.div(
             {"class": "stat-strip"},
             ui.div(
                 {"class": "stat-cell"},
-                ui.div({"class": "stat-num"}, "12-18"),
-                ui.div({"class": "stat-label"}, "months to build real operational AI muscle - not tools, but systems"),
+                ui.div({"class": "stat-num"}, "15"),
+                ui.div({"class": "stat-label"}, "internal builds already mapped across PS, Sales, CS, and Support - the demand is here now"),
             ),
             ui.div(
                 {"class": "stat-cell"},
                 ui.div({"class": "stat-num orange"}, "2027"),
-                ui.div({"class": "stat-label"}, "is not one year behind - it is competing against a team with a year of production data"),
+                ui.div({"class": "stat-label"}, "start doesn't just trail by a year - it trails an org with a year of production systems and a framework that compounds"),
             ),
             ui.div(
                 {"class": "stat-cell"},
-                ui.div({"class": "stat-num"}, "2x"),
-                ui.div({"class": "stat-label"}, "potential return on every internal build that runs on Posit's own stack"),
+                ui.div({"class": "stat-num"}, "12-18"),
+                ui.div({"class": "stat-label"}, "months to build the durable systems advantage - but the first tools ship in weeks"),
             ),
         ),
         ui.p(
             {"class": "body-copy"},
             ui.HTML(
-                "Anyone can use AI. The organizations that pull ahead are the ones that build the "
+                "Everyone using AI is the goal, not the finish line - we want every team reaching for it. "
+                "But the organizations that pull ahead are the ones that also build the "
                 "<em>operational muscle</em> - the framework, the <strong>systems</strong>, the evaluation data - "
-                "to deploy it with discipline. That muscle is not built in a sprint, and it cannot be built "
+                "to deploy it with discipline. That muscle isn't built in a sprint, and it won't be built "
                 "by people working on it around their day jobs. It takes deliberate investment: "
-                "dedicated ownership, production experience, real failures absorbed and learned from. "
-                "A company that starts in 2027 is not one year behind. It is competing against "
-                "an organization that already made the expensive mistakes and hardened its approach."
+                "dedicated ownership and real production experience. A company that starts in 2027 isn't "
+                "just one year behind. It's competing against an organization that already absorbed the "
+                "expensive mistakes and learned how to scale."
             ),
         ),
         ui.div(
@@ -1468,83 +1469,35 @@ def _section_ask():
         ui.div({"class": "section-eyebrow"}, "The Ask"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("A conversation. <strong>Not a job application.</strong>"),
+            ui.HTML("Plan now, or <strong>pay later.</strong>"),
         ),
         ui.div(
             {"class": "ask-band"},
             ui.p(
                 ui.HTML(
-                    "This role does not exist yet. That is the point. "
-                    "The function described here is the answer to a set of questions any organization "
-                    "scaling AI tooling will eventually have to answer. "
-                    "The ask is a conversation to test whether those questions resonate, "
-                    "and whether this is the right moment to get ahead of them."
+                    "This role doesn't exist yet, and that's the opportunity. "
+                    "Everything here makes the case that it should - and that the time to build it "
+                    "is while the portfolio is still small enough to get ahead of. "
+                    "The ask isn't a yes to the role. It's one conversation to find out whether the gap "
+                    "is real at Posit, and whether now is the moment to act on it."
                 )
             ),
             ui.div(
                 {"class": "callout green"},
                 ui.p(
                     ui.HTML(
-                        "<strong>The compounding argument:</strong> A team that starts building "
-                        "this function in 2026 does not have a one-year head start over a team "
-                        "that starts in 2027. It has a year of production systems, real evaluation data, "
-                        "and a team that has already made the expensive mistakes. That gap widens every month. "
-                        "The cost of waiting is not just internal inefficiency - "
-                        "it is also ceding the credibility story to someone else."
+                        "<strong>The compounding argument:</strong> A team that starts building this function "
+                        "in 2026 doesn't just have a one-year head start over a team that starts in 2027. "
+                        "It has a year of production systems, real evaluation data, and a framework where "
+                        "each new build makes the next one faster. That gap widens every month. "
+                        "The real cost of waiting isn't internal inefficiency - it's ceding the credibility "
+                        "story to someone else."
                     )
                 ),
             ),
             ui.p(
-                {"style": "font-size:0.82rem;color:rgba(255,255,255,0.7);margin-bottom:0.5rem;margin-top:1rem;"},
-                "One scenario for how this could look:",
-            ),
-            ui.div(
-                {"class": "ask-items"},
-                ui.div(
-                    {"class": "ask-item"},
-                    ui.div({"class": "ask-item-label"}, "Title anchor"),
-                    ui.div({"class": "ask-item-val"}, "Founding Head of AI Solutions"),
-                ),
-                ui.div(
-                    {"class": "ask-item"},
-                    ui.div({"class": "ask-item-label"}, "Level floor"),
-                    ui.div({"class": "ask-item-val"}, "Director (or Sr. Manager, comp-dependent)"),
-                ),
-                ui.div(
-                    {"class": "ask-item"},
-                    ui.div({"class": "ask-item-label"}, "Reporting line"),
-                    ui.div({"class": "ask-item-val"}, "COO or cross-functional ops owner"),
-                ),
-                ui.div(
-                    {"class": "ask-item"},
-                    ui.div({"class": "ask-item-label"}, "Starting team"),
-                    ui.div({"class": "ask-item-val"}, "Two - founding director + builder"),
-                ),
-                ui.div(
-                    {"class": "ask-item"},
-                    ui.div({"class": "ask-item-label"}, "First proof points"),
-                    ui.div({"class": "ask-item-val"}, "QBR Prep Agent + SOW Agent"),
-                ),
-                ui.div(
-                    {"class": "ask-item"},
-                    ui.div({"class": "ask-item-label"}, "Visibility anchor"),
-                    ui.div({"class": "ask-item-val"}, "posit::conf 2026 - Houston, Sept 14-16"),
-                ),
-            ),
-            ui.p(
-                ui.HTML(
-                    "Several of these are starting points, not conclusions - "
-                    "the reporting line in particular depends on org structure that a conversation would clarify. "
-                    "The next step is that conversation."
-                )
-            ),
-        ),
-        ui.div(
-            {"class": "footnote-strip"},
-            ui.HTML(
-                "Some items here are hypotheses awaiting validation - the Sales and Support build ideas, "
-                "the right reporting line, whether any informal version of this function already exists. "
-                "That is what the conversation is for."
+                {"style": "font-weight:600;margin-top:0.5rem;"},
+                "The next step is the conversation.",
             ),
         ),
     )
