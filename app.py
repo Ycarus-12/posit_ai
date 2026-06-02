@@ -1019,18 +1019,27 @@ def _section_function():
         ui.div({"class": "section-eyebrow"}, "The Function"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("Requirements in. <strong>Working systems out.</strong>"),
+            ui.HTML("One owner for the work <strong>that belongs to no one.</strong>"),
         ),
         ui.p(
             {"class": "body-copy"},
             ui.HTML(
-                "What Posit's operational teams need is a dedicated internal capability that takes "
-                "'we wish we had an AI tool that does X' and turns it into something that actually works - "
-                "without PS, Sales, CS, or Support stopping what they are already doing to build it. "
-                "<strong>The gap is not competence. It is bandwidth.</strong> "
-                "Posit's senior engineers are excellent at AI. Their expertise is committed to the "
-                "product roadmap - as it should be. A dedicated internal AI function protects that focus "
-                "by owning the operational builds that will never make the product queue."
+                "Every one of those questions has the same answer: a dedicated function that owns "
+                "internal AI end to end. Not a build queue that takes orders and ships whatever it's "
+                "handed - a partner that sits with a team, works through whether AI is even the right "
+                "tool for the problem, then builds, deploys, and maintains the ones that earn it."
+            ),
+        ),
+        ui.p(
+            {"class": "body-copy"},
+            ui.HTML(
+                "The gap it fills is <strong>ownership, not skill.</strong> Posit's engineers are "
+                "excellent at AI, and their expertise is committed to the product roadmap, as it should "
+                "be. The operational builds for PS, Sales, CS, and Support will never make that queue, "
+                "and the teams who need them are already full with the customers, deals, and "
+                "implementations they own. The work belongs to neither. This function exists to hold it, "
+                "protecting the product engineers' focus and the operational teams' time at once, "
+                "rather than competing with either for the hours."
             ),
         ),
         ui.div(
@@ -1041,9 +1050,10 @@ def _section_function():
                 ui.div({"class": "pillar-title"}, "Triage and Advisory"),
                 ui.div(
                     {"class": "pillar-body"},
-                    "Help any team assess whether AI fits a given problem and what the ROI would be. "
-                    "The prioritization question needs an owner whose actual job is to ask it. "
-                    "'Should we build this at all' is not an engineer's job to ask, and should not be.",
+                    "Help teams assess whether AI fits a given problem, and the ROI if it does. "
+                    "'Is AI even the right tool here?' is a question that needs an owner whose actual "
+                    "job is to ask it - otherwise it defaults to whoever is most enthusiastic, not "
+                    "whoever is most right.",
                 ),
             ),
             ui.div(
@@ -1052,10 +1062,10 @@ def _section_function():
                 ui.div({"class": "pillar-title"}, "Build and Maintain"),
                 ui.div(
                     {"class": "pillar-body"},
-                    "Posit does not send customers a few emails and hope they are successful. "
+                    "Posit does not send new customers a few emails and hope they are successful. "
                     "Internal tools deserve the same standard. That means proper implementation: "
                     "requirements gathered, systems built to spec, deployed correctly, and maintained "
-                    "as the processes around them change. On Posit's stack wherever the use case fits.",
+                    "as the processes around them change.",
                 ),
             ),
             ui.div(
@@ -1065,9 +1075,9 @@ def _section_function():
                 ui.div(
                     {"class": "pillar-body"},
                     "Shared standards for how AI is used internally: which models for which tasks, "
-                    "how data is handled, how outputs are validated, and how the portfolio is evaluated "
-                    "as models evolve. The same rigor Posit applies to reproducibility in its products, "
-                    "applied to the AI systems running inside its own walls.",
+                    "how data is handled and secured, how outputs are validated, and how the portfolio "
+                    "is evaluated as models evolve. The same rigor Posit applies to reproducibility and "
+                    "security in its own products, applied to the AI systems running inside its walls.",
                 ),
             ),
         ),
@@ -1075,12 +1085,13 @@ def _section_function():
             {"class": "callout blue"},
             ui.p(
                 ui.HTML(
-                    "<strong>Operating model - small and scaling:</strong> Two people to start. "
-                    "A founding director and one strong builder. Land-and-expand: low burn, fast proof, "
-                    "grow against a proven pipeline rather than a slide. Player-coach from day one - "
-                    "hands-on in the build, not pure management. "
-                    "Where it makes sense to build on Posit's own stack, we will - that is where the "
-                    "additional leverage lives. But the right tool for the job comes first."
+                    "<strong>How it works in practice:</strong> A team brings a problem, not a spec - "
+                    "'we wish we had something that did X.' From there it's the function's job, not "
+                    "theirs: assess whether AI is the right fit, scope what's worth building, deliver it, "
+                    "and own it once it's live. The team that asked for it gets all the benefit - a "
+                    "working tool, maintained as things change - and carries none of the overhead: "
+                    "nobody pulled off their real work to build it, and nobody left holding something "
+                    "they didn't build."
                 )
             ),
         ),
@@ -1353,6 +1364,10 @@ def _section_discovery():
             "reveal": "Without a clear owner, builds happen whenever someone has a spare hour - which means they happen inconsistently, to varying standards, with no shared framework. The institutional knowledge lives with whoever did the work, and leaves when they do.",
         },
         {
+            "q": "Before anything gets built, who decides whether AI is even the right investment for the problem?",
+            "reveal": "The team's problem is real - that's not the question. Whether AI is the right way to solve it is. Plenty of problems are better served by a process fix, a simple script, or nothing at all. Without someone whose job is to ask \"will this actually pay off,\" AI gets aimed at problems it can't economically solve - and the spend lands with nothing to show for it.",
+        },
+        {
             "q": "How much time away from their actual job do they have to build these tools properly?",
             "reveal": "Bandwidth is the real constraint, not capability. When the people doing the building are also responsible for their primary job, AI tooling gets the hours nobody else claimed. That is not a recipe for production-quality systems.",
         },
@@ -1361,16 +1376,12 @@ def _section_discovery():
             "reveal": "Without shared standards, every build is a one-off. That makes each tool harder to maintain, harder to hand off, and impossible to govern at scale. What works for one team does not transfer to the next.",
         },
         {
-            "q": "Before anything gets built, who decides whether the tool is even needed?",
-            "reveal": "Without an owner for the prioritization question, the answer defaults to whoever asked loudest or most recently. Tools get built that duplicate effort, solve the wrong problem, or create maintenance burden without corresponding value.",
-        },
-        {
             "q": "Who makes sure these tools are optimized - not just reaching for the most expensive model when a cheaper one would do?",
-            "reveal": "Model selection, prompt design, context trimming, and output right-sizing can dramatically affect cost. Without someone accountable for those decisions, teams default to the most capable model they know - which is rarely the most appropriate one.",
+            "reveal": "The cost gap between the most capable model and a right-sized one runs 10x or more per request, and wider on simple tasks. Multiply that across thousands of calls a day and a tool that should cost hundreds a month quietly burns thousands. Without someone accountable for model selection, prompt design, and output right-sizing, teams default to the most powerful model they know, rarely the most appropriate one.",
         },
         {
             "q": "When a new model is released, who checks that it does not break the tools already in production?",
-            "reveal": "Model updates are not automatically safe. An agent that performs well today can degrade quietly on a new version - different output formatting, changed reasoning patterns, subtle shifts in how instructions are interpreted. Nobody catches this unless someone is looking.",
+            "reveal": "Model updates are not automatically safe. An agent that performs well today can degrade quietly on a new version - different output formatting, changed reasoning patterns, subtle shifts in how instructions are interpreted. Nobody catches this if nobody is looking.",
         },
         {
             "q": "When an agent needs to be rebuilt, what happens when the person who built it has left or is buried in another project?",
@@ -1409,7 +1420,7 @@ def _section_discovery():
         ui.div({"class": "section-eyebrow"}, "The Questions"),
         ui.h2(
             {"class": "section-title"},
-            ui.HTML("Worth answering <strong>before the first build ships.</strong>"),
+            ui.HTML("The builds are happening. <strong>These questions aren't waiting.</strong>"),
         ),
         ui.p(
             {"class": "body-copy"},
